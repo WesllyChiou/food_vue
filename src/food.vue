@@ -9,7 +9,7 @@
         <div v-for="food in foods" :key="food._id" class="food-item">
           <h3>{{ food.樣品名稱 }}</h3>
           <p>俗名: {{ food.俗名 }}</p>
-          
+          <p>俗名: {{ food.修正熱量 }}</p>
         </div>
       </div>
       <div v-else>
@@ -37,8 +37,12 @@ export default {
           const response = await axios.get("https://food-server-ycm2.onrender.com/api/search", {
             params: { query: this.searchQuery }, // 傳遞查詢參數
           });
-          console.log(response);  // 查看是否獲得數據
-          this.foods = response.data; // 更新查詢結果
+          console.log("API Response:", response);  // 查看回應內容
+      if (response.data.length > 0) {
+        this.foods = response.data; // 更新查詢結果
+      } else {
+        console.log("No foods found.");
+      }
         } catch (error) {
           console.error("搜尋錯誤:", error);
         }
