@@ -5,7 +5,7 @@
       <input
         v-model="searchQuery"
         type="text"
-        placeholder="搜尋運動"
+        placeholder="搜尋食物"
         @input="debouncedSearch"
       />
     </div>
@@ -37,13 +37,9 @@
             <option value="female">女</option>
           </select>
         </div>
-        <div class="form-group">
-          <label for="exercise-time">運動時間 (分鐘):</label>
-          <input v-model.number="exerciseTime" type="number" id="exercise-time" />
-        </div>
         <div class="result">
           <p>基礎代謝率 (BMR): {{ calculateBMR }} 大卡</p>
-          <p>總運動消耗熱量: {{ calculateCalories }} 大卡</p>
+          <p>食物熱量: {{ selectedItem.calories }} 大卡</p>
         </div>
         <button @click="isModalVisible = false" class="close-btn">關閉</button>
       </div>
@@ -60,16 +56,15 @@ export default {
       searchQuery: "",
       filteredResults: [],
       results: [
-        { name: "跑步" },
-        { name: "游泳" },
-        { name: "騎自行車" },
-        // 更多運動項目...
+        { name: "蘋果", calories: 52 },
+        { name: "香蕉", calories: 89 },
+        { name: "雞胸肉", calories: 165 },
+        // 更多食物項目...
       ],
       isModalVisible: false,
       selectedItem: null,
       weight: 0,
       gender: "male",
-      exerciseTime: 0,
     };
   },
   computed: {
@@ -79,9 +74,6 @@ export default {
       } else {
         return 10 * this.weight + 6.25 * 160 - 5 * 25 - 161; // 假設身高160cm，年齡25歲
       }
-    },
-    calculateCalories() {
-      return this.calculateBMR * (this.exerciseTime / 1440); // 假設一天1440分鐘
     },
   },
   methods: {
