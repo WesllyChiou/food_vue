@@ -96,7 +96,11 @@ export default {
         "空手道",
       ], // 新增的運動類型
       weight: null, // 用戶輸入的體重
+      height: null, // 用戶輸入的身高
+      age: null, // 用戶輸入的年齡
+      gender: null, // 用戶選擇的性別
       bmr: null, // 計算出來的基礎代謝率 (BMR)
+      showBMRFields: false, // 是否顯示BMR欄位
     };
   },
 
@@ -240,13 +244,8 @@ button:hover {
   cursor: pointer;
 }
 
-.progress-bar {
-  margin-top: 20px;
-  width: 100%;
-  text-align: center;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border-radius: 4px;
+.food-item:hover {
+  background-color: #f9f9f9;
 }
 
 .modal {
