@@ -54,6 +54,18 @@
           <label>年齡：<input v-model.number="userInfo.age" type="number" /></label>
           <label>身高 (cm)：<input v-model.number="userInfo.height" type="number" /></label>
           <label>體重 (kg)：<input v-model.number="userInfo.weight" type="number" /></label>
+          
+          <!-- 活動因子選擇 -->
+          <label>活動因子：
+            <select v-model="userInfo.activityFactor">
+              <option value="1.2">很少運動 (久坐)</option>
+              <option value="1.375">輕度運動 (輕量運動/運動少於三天)</option>
+              <option value="1.55">中等運動 (中度運動/每週運動三到五天)</option>
+              <option value="1.725">重度運動 (重度運動/每週運動六天)</option>
+              <option value="1.9">非常重度運動 (重度運動/每天運動)</option>
+            </select>
+          </label>
+          
           <p>基礎代謝率：{{ calculateBMR() }} 大卡/天</p>
           <button @click="updateExerciseTimes">更新運動時間</button>
         </div>
@@ -98,6 +110,7 @@ export default {
         age: 25,
         height: 170,
         weight: 65,
+        activityFactor: 1.2, // 預設為久坐
       },
     };
   },
@@ -160,13 +173,14 @@ export default {
     },
 
     calculateBMR() {
-      const { gender, age, height, weight } = this.userInfo;
+      const { gender, age, height, weight, activityFactor } = this.userInfo;
+      let bmr = 0;
       if (gender === "male") {
-        return Math.round(88.36 + 13.4 * weight + 4.8 * height - 5.7 * age);
+        bmr = Math.round(88.36 + 13.4 * weight + 4.8 * height - 5.7 * age);
       } else if (gender === "female") {
-        return Math.round(447.6 + 9.2 * weight + 3.1 * height - 4.3 * age);
+        bmr = Math.round(447.6 + 9.2 * weight + 3.1 * height - 4.3 * age);
       }
-      return 0;
+      return Math.round(bmr * activityFactor);
     },
 
     updateExerciseTimes() {
@@ -181,9 +195,7 @@ export default {
     },
   },
 };
-
 </script>
-
 
 <style scoped>
 /* 樣式可以根據需要進行自定義 */
@@ -238,52 +250,6 @@ button:hover {
 }
 
 .food-item h3 {
-  margin: 0;
-  font-size: 1.2em;
-}
-
-.food-item p {
-  color: #555;
-}
-
-/* 進度條的樣式 */
-.progress-bar {
-  margin-top: 20px;
-  width: 100%;
-  text-align: center;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border-radius: 4px;
-}
-
-/* 彈窗樣式 */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 4px;
-  width: 60%;
-  max-width: 600px;
-  text-align: left;
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 24px;
-  cursor: pointer;
-}
+  margin: 
+  }
 </style>
