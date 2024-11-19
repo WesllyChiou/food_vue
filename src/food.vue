@@ -228,18 +228,14 @@ button:hover {
 
 .food-list {
   margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .food-item {
-  background-color: #fff;
   padding: 15px;
-  margin: 10px;
-  width: 80%;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
