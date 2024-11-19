@@ -1,24 +1,52 @@
 <template>
-    <div class="app-container">
-      <h1>熱量查詢系統</h1>
-      <div class="search-container">
-        <input v-model="searchQuery" placeholder="輸入食物名稱或俗名" />
-        <button @click="searchFood">搜尋</button>
-      </div>
-      <div v-if="foods.length > 0" class="food-list">
-        <div v-for="food in foods" :key="food._id" class="food-item">
-          <h3>{{ food.樣品名稱 }}</h3>
-          <p>俗名: {{ food.俗名 }}</p>
-          <p>熱量: {{ food['修正熱量(kcal)'] }} 大卡</p>
-        </div>
-      </div>
-      <div v-else>
-        <p>查無資料</p>
+  <div class="app-container">
+    <h1>熱量查詢系統</h1>
+    <div class="search-container">
+      <input v-model="searchQuery" placeholder="輸入食物名稱或俗名" />
+      <button @click="searchFood">搜尋</button>
+    </div>
+
+    <!-- 顯示進度條 -->
+    <div v-if="isLoading" class="progress-bar">
+      <p>搜尋中...</p>
+    </div>
+
+    <div v-if="foods.length > 0" class="food-list">
+      <div
+        v-for="food in foods"
+        :key="food._id"
+        class="food-item"
+        @click="openExerciseModal(food)"
+      >
+        <h3>{{ food.樣品名稱 }}</h3>
+        <p>俗名: {{ food.俗名 }}</p>
+        <p>熱量: {{ food['修正熱量(kcal)'] }} 大卡</p>
       </div>
     </div>
-  </template>
-  
-  <script>
+
+    <!-- 查無資料時顯示 -->
+    <div v-else>
+      <p>查無資料</p>
+    </div>
+
+    <!-- 運動建議彈窗 -->
+    <div v-if="showModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" @click="closeModal">&times;</span>
+        <h3>{{ selectedFood.樣品名稱 }} 的運動建議</h3>
+        <p>熱量：{{ selectedFood['修正熱量(kcal)'] }} 大卡</p>
+        <p>您需要進行以下運動來消耗這些熱量：</p>
+        <ul>
+          <li>跑步：{{ calculateExerciseTime(selectedFood['修正熱量(kcal)'], '跑步') }} 分鐘</li>
+          <li>游泳：{{ calculateExerciseTime(selectedFood['修正熱量(kcal)'], '游泳') }} 分鐘</li>
+          <li>腳踏車：{{ calculateExerciseTime(selectedFood['修正熱量(kcal)'], '腳踏車') }} 分鐘</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
 import axios from "axios";
 
 export default {
@@ -26,90 +54,163 @@ export default {
     return {
       searchQuery: "", // 用戶輸入的查詢關鍵字
       foods: [], // 顯示查詢結果
+      isLoading: false, // 顯示進度條
+      showModal: false, // 是否顯示彈窗
+      selectedFood: null, // 被選中的食物資料
     };
   },
   methods: {
     async searchFood() {
       console.log("Search Query:", this.searchQuery);  // 打印查詢的關鍵字
+
       if (this.searchQuery.trim()) {
+        // 搜尋前先清空資料
+        this.foods = [];
+        this.isLoading = true; // 顯示進度條
+
         try {
           // 使用雲端後端 API URL
           const response = await axios.get("https://food-server-ycm2.onrender.com/api/search", {
             params: { query: this.searchQuery }, // 傳遞查詢參數
           });
-          console.log("API Response:", response);  // 查看回應內容
-      if (response.data.length > 0) {
-        this.foods = response.data; // 更新查詢結果
-      } else {
-        console.log("No foods found.");
-      }
+          console.log(response);  // 查看是否獲得數據
+          this.foods = response.data; // 更新查詢結果
         } catch (error) {
           console.error("搜尋錯誤:", error);
+        } finally {
+          this.isLoading = false; // 隱藏進度條
         }
       }
+    },
+
+    // 當使用者點選某筆食物資料時開啟彈窗
+    openExerciseModal(food) {
+      this.selectedFood = food;
+      this.showModal = true;
+    },
+
+    // 關閉彈窗
+    closeModal() {
+      this.showModal = false;
+      this.selectedFood = null;
+    },
+
+    // 根據熱量計算運動時間
+    calculateExerciseTime(kcal, exerciseType) {
+      // 假設每種運動每分鐘消耗的熱量 (kcal)
+      const calorieBurnRate = {
+        跑步: 10, // 跑步每分鐘消耗10卡
+        游泳: 7, // 游泳每分鐘消耗7卡
+        腳踏車: 5, // 腳踏車每分鐘消耗5卡
+      };
+
+      // 計算運動時間：熱量 ÷ 每分鐘消耗的熱量
+      const burnRate = calorieBurnRate[exerciseType] || 0;
+      return burnRate ? Math.round(kcal / burnRate) : 0;
     },
   },
 };
 </script>
-  
-  <style scoped>
-  /* 樣式可以根據需要進行自定義 */
-  .app-container {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background-color: #f4f4f9;
-    text-align: center;
-  }
-  
-  .search-container {
-    margin-bottom: 20px;
-  }
-  
-  input {
-    padding: 10px;
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    margin-left: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  .food-list {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .food-item {
-    background-color: #fff;
-    padding: 15px;
-    margin: 10px;
-    width: 80%;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .food-item h3 {
-    margin: 0;
-    font-size: 1.2em;
-  }
-  
-  .food-item p {
-    color: #555;
-  }
-  </style>
-  
+
+<style scoped>
+/* 樣式可以根據需要進行自定義 */
+.app-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f4f4f9;
+  text-align: center;
+}
+
+.search-container {
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.food-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.food-item {
+  background-color: #fff;
+  padding: 15px;
+  margin: 10px;
+  width: 80%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.food-item h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.food-item p {
+  color: #555;
+}
+
+/* 進度條的樣式 */
+.progress-bar {
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+/* 彈窗樣式 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 4px;
+  width: 60%;
+  max-width: 600px;
+  text-align: left;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+</style>
