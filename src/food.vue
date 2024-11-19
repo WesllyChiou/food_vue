@@ -41,10 +41,27 @@
             {{ exercise }}：{{ calculateExerciseTime(selectedFood['修正熱量(kcal)'], exercise) }} 分鐘
           </li>
         </ul>
+        <button @click="toggleBmrFields">計算基礎代謝率</button>
+
+        <!-- 基礎代謝率欄位 -->
+        <div v-if="showBmrFields" class="bmr-form">
+          <label>性別：
+            <select v-model="userInfo.gender">
+              <option value="male">男</option>
+              <option value="female">女</option>
+            </select>
+          </label>
+          <label>年齡：<input v-model.number="userInfo.age" type="number" /></label>
+          <label>身高 (cm)：<input v-model.number="userInfo.height" type="number" /></label>
+          <label>體重 (kg)：<input v-model.number="userInfo.weight" type="number" /></label>
+          <p>基礎代謝率：{{ calculateBMR() }} 大卡/天</p>
+          <button @click="updateExerciseTimes">更新運動時間</button>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from "axios";
@@ -52,11 +69,12 @@ import axios from "axios";
 export default {
   data() {
     return {
-      searchQuery: "", // 用戶輸入的查詢關鍵字
-      foods: [], // 顯示查詢結果
-      isLoading: false, // 顯示進度條
-      showModal: false, // 是否顯示彈窗
-      selectedFood: null, // 被選中的食物資料
+      searchQuery: "",
+      foods: [],
+      isLoading: false,
+      showModal: false,
+      showBmrFields: false, // 控制基礎代謝率欄位顯示
+      selectedFood: null,
       exerciseTypes: [
         "跑步",
         "游泳",
@@ -74,7 +92,13 @@ export default {
         "桌球",
         "網球",
         "空手道",
-      ], // 新增的運動類型
+      ],
+      userInfo: {
+        gender: "male",
+        age: 25,
+        height: 170,
+        weight: 65,
+      },
     };
   },
   methods: {
@@ -96,21 +120,22 @@ export default {
       }
     },
 
-    // 當使用者點選某筆食物資料時開啟彈窗
     openExerciseModal(food) {
       this.selectedFood = food;
       this.showModal = true;
     },
 
-    // 關閉彈窗
     closeModal() {
       this.showModal = false;
       this.selectedFood = null;
+      this.showBmrFields = false;
     },
 
-    // 根據熱量計算運動時間
+    toggleBmrFields() {
+      this.showBmrFields = !this.showBmrFields;
+    },
+
     calculateExerciseTime(kcal, exerciseType) {
-      // 假設每種運動每分鐘消耗的熱量 (kcal)
       const calorieBurnRate = {
         跑步: 10,
         游泳: 7,
@@ -130,12 +155,33 @@ export default {
         空手道: 11,
       };
 
-      // 計算運動時間：熱量 ÷ 每分鐘消耗的熱量
       const burnRate = calorieBurnRate[exerciseType] || 0;
       return burnRate ? Math.round(kcal / burnRate) : 0;
     },
+
+    calculateBMR() {
+      const { gender, age, height, weight } = this.userInfo;
+      if (gender === "male") {
+        return Math.round(88.36 + 13.4 * weight + 4.8 * height - 5.7 * age);
+      } else if (gender === "female") {
+        return Math.round(447.6 + 9.2 * weight + 3.1 * height - 4.3 * age);
+      }
+      return 0;
+    },
+
+    updateExerciseTimes() {
+      const bmr = this.calculateBMR();
+      if (bmr > 0) {
+        this.exerciseTypes = this.exerciseTypes.map((exercise) => {
+          const newTime = this.calculateExerciseTime(this.selectedFood['修正熱量(kcal)'] + bmr, exercise);
+          return `${exercise}：${newTime} 分鐘 (包含BMR)`;
+        });
+        alert("運動時間已更新！");
+      }
+    },
   },
 };
+
 </script>
 
 
