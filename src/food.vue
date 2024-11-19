@@ -30,12 +30,14 @@ export default {
   },
   methods: {
     async searchFood() {
+      console.log("Search Query:", this.searchQuery);  // 打印查詢的關鍵字
       if (this.searchQuery.trim()) {
         try {
           // 使用雲端後端 API URL
           const response = await axios.get("https://food-server-ycm2.onrender.com/api/search", {
             params: { query: this.searchQuery }, // 傳遞查詢參數
           });
+          console.log(response);  // 查看是否獲得數據
           this.foods = response.data; // 更新查詢結果
         } catch (error) {
           console.error("搜尋錯誤:", error);
