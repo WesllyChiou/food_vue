@@ -6,7 +6,6 @@
       <button @click="searchFood">搜尋</button>
     </div>
 
-    <!-- 顯示進度條 -->
     <div v-if="isLoading" class="progress-bar">
       <p>搜尋中...</p>
     </div>
@@ -24,18 +23,30 @@
       </div>
     </div>
 
-    <!-- 查無資料時顯示 -->
     <div v-else>
       <p>查無資料</p>
     </div>
 
     <!-- 運動建議彈窗 -->
-    <div v-if="showModal" class="modal">
-      <div class="modal-content">
+    <div v-if="showModal" class="modal" @click="closeModalOnOutsideClick">
+      <div class="modal-content" @click.stop>
         <span class="close-btn" @click="closeModal">&times;</span>
         <h3>{{ selectedFood.樣品名稱 }} 的運動建議</h3>
         <p>熱量：{{ selectedFood['修正熱量(kcal)'] }} 大卡</p>
-        <p>請輸入體重 (kg)：<input v-model="weight" type="number" placeholder="輸入體重" /></p>
+        
+        <!-- 使用者輸入欄位 -->
+        <div>
+          <p>請輸入體重 (kg)：<input v-model="weight" type="number" placeholder="輸入體重" /></p>
+          <p>請輸入身高 (cm)：<input v-model="height" type="number" placeholder="輸入身高" /></p>
+          <p>請輸入年齡 (歲)：<input v-model="age" type="number" placeholder="輸入年齡" /></p>
+          <p>選擇性別：
+            <select v-model="gender">
+              <option value="male">男</option>
+              <option value="female">女</option>
+            </select>
+          </p>
+        </div>
+        
         <button @click="calculateBMR">計算BMR</button>
         <p v-if="bmr">您的基礎代謝率 (BMR) 為：{{ bmr }} 大卡</p>
         <p>您需要進行以下運動來消耗這些熱量：</p>
@@ -48,6 +59,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from "axios";
@@ -83,87 +95,89 @@ export default {
     };
   },
   methods: {
-    async searchFood() {
-      if (this.searchQuery.trim()) {
-        this.foods = [];
-        this.isLoading = true;
+  async searchFood() {
+    if (this.searchQuery.trim()) {
+      this.foods = [];
+      this.isLoading = true;
 
-        try {
-          const response = await axios.get("https://food-server-ycm2.onrender.com/api/search", {
-            params: { query: this.searchQuery },
-          });
-          this.foods = response.data;
-        } catch (error) {
-          console.error("搜尋錯誤:", error);
-        } finally {
-          this.isLoading = false;
-        }
+      try {
+        const response = await axios.get("https://food-server-ycm2.onrender.com/api/search", {
+          params: { query: this.searchQuery },
+        });
+        this.foods = response.data;
+      } catch (error) {
+        console.error("搜尋錯誤:", error);
+      } finally {
+        this.isLoading = false;
       }
-    },
-
-    // 當使用者點選某筆食物資料時開啟彈窗
-    openExerciseModal(food) {
-      this.selectedFood = food;
-      this.showModal = true;
-    },
-
-    // 關閉彈窗
-    closeModal() {
-      this.showModal = false;
-      this.selectedFood = null;
-      this.weight = null; // 清空體重欄位
-      this.bmr = null; // 清空BMR
-    },
-
-    // 根據熱量計算運動時間
-    calculateExerciseTime(kcal, exerciseType) {
-      // 假設每種運動每分鐘消耗的熱量 (kcal)
-      const calorieBurnRate = {
-        跑步: 10,
-        游泳: 7,
-        腳踏車: 5,
-        籃球: 6,
-        瑜珈: 3,
-        重訓: 8,
-        拳擊: 12,
-        柔道: 10,
-        跆拳道: 9,
-        滑板: 4,
-        街舞: 5,
-        直排輪: 7,
-        羽球: 6,
-        桌球: 4,
-        網球: 7,
-        空手道: 11,
-      };
-
-      // 計算運動時間：熱量 ÷ 每分鐘消耗的熱量
-      const burnRate = calorieBurnRate[exerciseType] || 0;
-      return burnRate ? Math.round(kcal / burnRate) : 0;
-    },
-
-    // 計算基礎代謝率 (BMR)
-    calculateBMR() {
-      if (this.weight && this.selectedFood) {
-        // 假設以哈里斯-貝尼迪克特公式計算 BMR
-        // 男性：BMR = 88.362 + (13.397 * 體重) + (4.799 * 身高) - (5.677 * 年齡)
-        // 女性：BMR = 447.593 + (9.247 * 體重) + (3.098 * 身高) - (4.330 * 年齡)
-        // 這裡假設身高150cm，年齡30歲，並且性別為女性（可以根據需要調整）
-
-        const height = 150; // 假設身高150 cm
-        const age = 30; // 假設年齡30歲
-        const isMale = false; // 假設是女性
-
-        let bmr = 0;
-        if (isMale) {
-          bmr = 88.362 + (13.397 * this.weight) + (4.799 * height) - (5.677 * age);
-        } else {
-          bmr = 447.593 + (9.247 * this.weight) + (3.098 * height) - (4.330 * age);
-        }
-        this.bmr = Math.round(bmr);
-      }
-    },
+    }
   },
+
+  // 當使用者點選某筆食物資料時開啟彈窗
+  openExerciseModal(food) {
+    this.selectedFood = food;
+    this.showModal = true;
+  },
+
+  // 關閉彈窗
+  closeModal() {
+    this.showModal = false;
+    this.selectedFood = null;
+    this.weight = null;
+    this.height = null;
+    this.age = null;
+    this.gender = null;
+    this.bmr = null;
+  },
+
+  // 點擊彈窗外部關閉彈窗
+  closeModalOnOutsideClick(event) {
+    if (event.target === event.currentTarget) {
+      this.closeModal();
+    }
+  },
+
+  // 根據熱量計算運動時間
+  calculateExerciseTime(kcal, exerciseType) {
+    const calorieBurnRate = {
+      跑步: 10,
+      游泳: 7,
+      腳踏車: 5,
+      籃球: 6,
+      瑜珈: 3,
+      重訓: 8,
+      拳擊: 12,
+      柔道: 10,
+      跆拳道: 9,
+      滑板: 4,
+      街舞: 5,
+      直排輪: 7,
+      羽球: 6,
+      桌球: 4,
+      網球: 7,
+      空手道: 11,
+    };
+
+    const burnRate = calorieBurnRate[exerciseType] || 0;
+    return burnRate ? Math.round(kcal / burnRate) : 0;
+  },
+
+  // 計算基礎代謝率 (BMR)
+  calculateBMR() {
+    if (this.weight && this.height && this.age && this.gender) {
+      let bmr = 0;
+      if (this.gender === 'male') {
+        bmr = 88.362 + (13.397 * this.weight) + (4.799 * this.height) - (5.677 * this.age);
+      } else {
+        bmr = 447.593 + (9.247 * this.weight) + (3.098 * this.height) - (4.330 * this.age);
+      }
+      this.bmr = Math.round(bmr);
+    } else {
+      alert('請填寫所有欄位以計算 BMR');
+    }
+  },
+}
+
 };
 </script>
 
