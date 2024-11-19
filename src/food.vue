@@ -7,9 +7,9 @@
       </div>
       <div v-if="foods.length > 0" class="food-list">
         <div v-for="food in foods" :key="food._id" class="food-item">
-          <h3>{{ food.name }}</h3>
-          <p>俗名: {{ food.nickname }}</p>
-          <p>熱量: {{ food.calories }} 大卡</p>
+          <h3>{{ food.樣品名稱 }}</h3>
+          <p>俗名: {{ food.俗名 }}</p>
+          <p>熱量: {{ food.修正熱量(kcal) }} 大卡</p>
         </div>
       </div>
       <div v-else>
