@@ -19,29 +19,32 @@
   </template>
   
   <script>
-  export default {
-    data() {
-      return {
-        searchQuery: "", // 用戶輸入的查詢關鍵字
-        foods: []        // 顯示查詢結果
-      };
-    },
-    methods: {
-      async searchFood() {
-        if (this.searchQuery.trim()) {
-          try {
-            const response = await this.$axios.get(`/api/search`, {
-              params: { query: this.searchQuery }
-            });
-            this.foods = response.data;  // 更新查詢結果
-          } catch (error) {
-            console.error("搜尋錯誤:", error);
-          }
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      searchQuery: "", // 用戶輸入的查詢關鍵字
+      foods: [], // 顯示查詢結果
+    };
+  },
+  methods: {
+    async searchFood() {
+      if (this.searchQuery.trim()) {
+        try {
+          // 使用雲端後端 API URL
+          const response = await axios.get("https://food-server-ycm2.onrender.com/api/search", {
+            params: { query: this.searchQuery }, // 傳遞查詢參數
+          });
+          this.foods = response.data; // 更新查詢結果
+        } catch (error) {
+          console.error("搜尋錯誤:", error);
         }
       }
-    }
-  };
-  </script>
+    },
+  },
+};
+</script>
   
   <style scoped>
   /* 樣式可以根據需要進行自定義 */
