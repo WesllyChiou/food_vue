@@ -58,7 +58,7 @@
         <p>您需要進行以下運動來消耗這些熱量：</p>
         <ul>
           <li v-for="exercise in exerciseTypes" :key="exercise">
-            {{ exercise }}：{{ calculateExerciseTime(selectedFood['修正熱量(kcal)'], exercise) }} 分鐘
+            {{ exercise }}：{{ exerciseTimes[exercise] }} 分鐘
           </li>
         </ul>
       </div>
@@ -101,6 +101,7 @@ export default {
       gender: null, // 用戶選擇的性別
       bmr: null, // 計算出來的基礎代謝率 (BMR)
       showBMRFields: false, // 是否顯示BMR欄位
+      exerciseTimes: {}, // 儲存每個運動的時間
     };
   },
 
@@ -128,6 +129,7 @@ export default {
       this.showModal = true;
       this.showBMRFields = false;
       this.bmr = null;
+      this.exerciseTimes = {}; // 清空運動時間
     },
 
     closeModal() {
@@ -139,6 +141,7 @@ export default {
       this.gender = null;
       this.bmr = null;
       this.showBMRFields = false;
+      this.exerciseTimes = {};
     },
 
     closeModalOnOutsideClick(event) {
@@ -184,8 +187,16 @@ export default {
           bmr = 447.593 + (9.247 * this.weight) + (3.098 * this.height) - (4.330 * this.age);
         }
         this.bmr = Math.round(bmr);
+
+        // 根據新的 BMR 重新計算所有運動的時間
+        this.exerciseTimes = this.exerciseTypes.reduce((acc, exercise) => {
+          const time = this.calculateExerciseTime(this.bmr, exercise);
+          acc[exercise] = time;
+          return acc;
+        }, {});
       } else {
         this.bmr = null;
+        this.exerciseTimes = {};
       }
     },
   },
