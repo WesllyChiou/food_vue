@@ -34,21 +34,26 @@
         <h3>{{ selectedFood.樣品名稱 }} 的運動建議</h3>
         <p>熱量：{{ selectedFood['修正熱量(kcal)'] }} 大卡</p>
         
-        <!-- 使用者輸入欄位 -->
-        <div>
-          <p>請輸入體重 (kg)：<input v-model="weight" type="number" placeholder="輸入體重" /></p>
-          <p>請輸入身高 (cm)：<input v-model="height" type="number" placeholder="輸入身高" /></p>
-          <p>請輸入年齡 (歲)：<input v-model="age" type="number" placeholder="輸入年齡" /></p>
-          <p>選擇性別：
-            <select v-model="gender">
-              <option value="male">男</option>
-              <option value="female">女</option>
-            </select>
-          </p>
+        <!-- 顯示計算BMR的區域，只有在點擊計算BMR後才顯示 -->
+        <button @click="toggleBMRFields" v-if="!showBMRFields">計算BMR</button>
+
+        <div v-if="showBMRFields">
+          <div>
+            <p>請輸入體重 (kg)：<input v-model="weight" type="number" placeholder="輸入體重" @input="updateBMRAndExerciseTime" /></p>
+            <p>請輸入身高 (cm)：<input v-model="height" type="number" placeholder="輸入身高" @input="updateBMRAndExerciseTime" /></p>
+            <p>請輸入年齡 (歲)：<input v-model="age" type="number" placeholder="輸入年齡" @input="updateBMRAndExerciseTime" /></p>
+            <p>選擇性別：
+              <select v-model="gender" @change="updateBMRAndExerciseTime">
+                <option value="male">男</option>
+                <option value="female">女</option>
+              </select>
+            </p>
+          </div>
+          
+          <p v-if="bmr">您的基礎代謝率 (BMR) 為：{{ bmr }} 大卡</p>
         </div>
-        
-        <button @click="calculateBMR">計算BMR</button>
-        <p v-if="bmr">您的基礎代謝率 (BMR) 為：{{ bmr }} 大卡</p>
+
+        <!-- 運動建議清單，顯示在計算BMR區域下方 -->
         <p>您需要進行以下運動來消耗這些熱量：</p>
         <ul>
           <li v-for="exercise in exerciseTypes" :key="exercise">
@@ -59,6 +64,7 @@
     </div>
   </div>
 </template>
+
 
 
 <script>
@@ -94,7 +100,8 @@ export default {
       bmr: null, // 計算出來的基礎代謝率 (BMR)
     };
   },
-  methods: {
+
+methods: {
   async searchFood() {
     if (this.searchQuery.trim()) {
       this.foods = [];
@@ -128,6 +135,7 @@ export default {
     this.age = null;
     this.gender = null;
     this.bmr = null;
+    this.showBMRFields = false; // 重置BMR輸入欄位顯示
   },
 
   // 點擊彈窗外部關閉彈窗
@@ -135,6 +143,11 @@ export default {
     if (event.target === event.currentTarget) {
       this.closeModal();
     }
+  },
+
+  // 控制BMR輸入欄位的顯示
+  toggleBMRFields() {
+    this.showBMRFields = !this.showBMRFields;
   },
 
   // 根據熱量計算運動時間
@@ -162,8 +175,8 @@ export default {
     return burnRate ? Math.round(kcal / burnRate) : 0;
   },
 
-  // 計算基礎代謝率 (BMR)
-  calculateBMR() {
+  // 更新BMR並計算運動時間
+  updateBMRAndExerciseTime() {
     if (this.weight && this.height && this.age && this.gender) {
       let bmr = 0;
       if (this.gender === 'male') {
@@ -173,10 +186,11 @@ export default {
       }
       this.bmr = Math.round(bmr);
     } else {
-      alert('請填寫所有欄位以計算 BMR');
+      this.bmr = null;
     }
   },
 }
+
 
 };
 </script>
