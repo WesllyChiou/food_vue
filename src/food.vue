@@ -34,21 +34,31 @@
         <h3>{{ selectedFood.樣品名稱 }} 的運動建議</h3>
         <p>熱量：{{ selectedFood['修正熱量(kcal)'] }} 大卡</p>
 
-        <!-- 顯示計算BMR的區域，移到最下方 -->
+        <!-- 顯示計算BMR和TDEE的區域，移到最下方 -->
         <div v-if="showBMRFields">
           <div>
-            <p>請輸入體重 (kg)：<input v-model="weight" type="number" placeholder="輸入體重" @input="updateBMRAndExerciseTime" /></p>
-            <p>請輸入身高 (cm)：<input v-model="height" type="number" placeholder="輸入身高" @input="updateBMRAndExerciseTime" /></p>
-            <p>請輸入年齡 (歲)：<input v-model="age" type="number" placeholder="輸入年齡" @input="updateBMRAndExerciseTime" /></p>
-            <p>選擇性別：
-              <select v-model="gender" @change="updateBMRAndExerciseTime">
+            <p>請輸入體重 (kg)：<input v-model="weight" type="number" placeholder="輸入體重" @input="updateBMR" /></p>
+            <p>請輸入身高 (cm)：<input v-model="height" type="number" placeholder="輸入身高" @input="updateBMR" /></p>
+            <p>請輸入年齡 (歲)：<input v-model="age" type="number" placeholder="輸入年齡" @input="updateBMR" /></p>
+            <p>選擇性別： 
+              <select v-model="gender" @change="updateBMR">
                 <option value="male">男</option>
                 <option value="female">女</option>
               </select>
             </p>
+            <p>選擇活動水平： 
+              <select v-model="activityLevel" @change="updateBMR">
+                <option value="1.2">久坐少動</option>
+                <option value="1.375">輕度活動</option>
+                <option value="1.55">中度活動</option>
+                <option value="1.725">高度活動</option>
+                <option value="1.9">非常活躍</option>
+              </select>
+            </p>
           </div>
-          
+
           <p v-if="bmr">您的基礎代謝率 (BMR) 為：{{ bmr }} 大卡</p>
+          <p v-if="tdee">您的每日總能量消耗 (TDEE) 為：{{ tdee }} 大卡</p>
         </div>
 
         <!-- 計算BMR按鈕，移到下方 -->
@@ -99,9 +109,28 @@ export default {
       height: null, // 用戶輸入的身高
       age: null, // 用戶輸入的年齡
       gender: null, // 用戶選擇的性別
+      activityLevel: 1.2, // 用戶選擇的活動水平
       bmr: null, // 計算出來的基礎代謝率 (BMR)
+      tdee: null, // 計算出來的每日總能量消耗 (TDEE)
       showBMRFields: false, // 是否顯示BMR欄位
-      exerciseTimes: {}, // 儲存每個運動的時間
+      exerciseTimes: {
+        "跑步": 30,
+        "游泳": 45,
+        "腳踏車": 40,
+        "籃球": 50,
+        "瑜珈": 60,
+        "重訓": 45,
+        "拳擊": 30,
+        "柔道": 40,
+        "跆拳道": 45,
+        "滑板": 30,
+        "街舞": 40,
+        "直排輪": 35,
+        "羽球": 40,
+        "桌球": 25,
+        "網球": 40,
+        "空手道": 50,
+      }, // 固定的運動時間
     };
   },
 
@@ -129,7 +158,7 @@ export default {
       this.showModal = true;
       this.showBMRFields = false;
       this.bmr = null;
-      this.exerciseTimes = {}; // 清空運動時間
+      this.tdee = null;
     },
 
     closeModal() {
@@ -139,9 +168,10 @@ export default {
       this.height = null;
       this.age = null;
       this.gender = null;
+      this.activityLevel = 1.2;
       this.bmr = null;
+      this.tdee = null;
       this.showBMRFields = false;
-      this.exerciseTimes = {};
     },
 
     closeModalOnOutsideClick(event) {
@@ -154,31 +184,7 @@ export default {
       this.showBMRFields = !this.showBMRFields;
     },
 
-    calculateExerciseTime(kcal, exerciseType) {
-      const calorieBurnRate = {
-        跑步: 10,
-        游泳: 7,
-        腳踏車: 5,
-        籃球: 6,
-        瑜珈: 3,
-        重訓: 8,
-        拳擊: 12,
-        柔道: 10,
-        跆拳道: 9,
-        滑板: 4,
-        街舞: 5,
-        直排輪: 7,
-        羽球: 6,
-        桌球: 4,
-        網球: 7,
-        空手道: 11,
-      };
-
-      const burnRate = calorieBurnRate[exerciseType] || 0;
-      return burnRate ? Math.round(kcal / burnRate) : 0;
-    },
-
-    updateBMRAndExerciseTime() {
+    updateBMR() {
       if (this.weight && this.height && this.age && this.gender) {
         let bmr = 0;
         if (this.gender === 'male') {
@@ -188,15 +194,8 @@ export default {
         }
         this.bmr = Math.round(bmr);
 
-        // 根據新的 BMR 重新計算所有運動的時間
-        this.exerciseTimes = this.exerciseTypes.reduce((acc, exercise) => {
-          const time = this.calculateExerciseTime(this.bmr, exercise);
-          acc[exercise] = time;
-          return acc;
-        }, {});
-      } else {
-        this.bmr = null;
-        this.exerciseTimes = {};
+        // 計算TDEE
+        this.tdee = Math.round(this.bmr * this.activityLevel);
       }
     },
   },
