@@ -37,9 +37,9 @@
         <p>熱量：{{ selectedFood['修正熱量(kcal)'] }} 大卡</p>
         <p>您需要進行以下運動來消耗這些熱量：</p>
         <ul>
-          <li>跑步：{{ calculateExerciseTime(selectedFood['修正熱量(kcal)'], '跑步') }} 分鐘</li>
-          <li>游泳：{{ calculateExerciseTime(selectedFood['修正熱量(kcal)'], '游泳') }} 分鐘</li>
-          <li>腳踏車：{{ calculateExerciseTime(selectedFood['修正熱量(kcal)'], '腳踏車') }} 分鐘</li>
+          <li v-for="exercise in exerciseTypes" :key="exercise">
+            {{ exercise }}：{{ calculateExerciseTime(selectedFood['修正熱量(kcal)'], exercise) }} 分鐘
+          </li>
         </ul>
       </div>
     </div>
@@ -57,28 +57,41 @@ export default {
       isLoading: false, // 顯示進度條
       showModal: false, // 是否顯示彈窗
       selectedFood: null, // 被選中的食物資料
+      exerciseTypes: [
+        "跑步",
+        "游泳",
+        "腳踏車",
+        "籃球",
+        "瑜珈",
+        "重訓",
+        "拳擊",
+        "柔道",
+        "跆拳道",
+        "滑板",
+        "街舞",
+        "直排輪",
+        "羽球",
+        "桌球",
+        "網球",
+        "空手道",
+      ], // 新增的運動類型
     };
   },
   methods: {
     async searchFood() {
-      console.log("Search Query:", this.searchQuery);  // 打印查詢的關鍵字
-
       if (this.searchQuery.trim()) {
-        // 搜尋前先清空資料
         this.foods = [];
-        this.isLoading = true; // 顯示進度條
+        this.isLoading = true;
 
         try {
-          // 使用雲端後端 API URL
           const response = await axios.get("https://food-server-ycm2.onrender.com/api/search", {
-            params: { query: this.searchQuery }, // 傳遞查詢參數
+            params: { query: this.searchQuery },
           });
-          console.log(response);  // 查看是否獲得數據
-          this.foods = response.data; // 更新查詢結果
+          this.foods = response.data;
         } catch (error) {
           console.error("搜尋錯誤:", error);
         } finally {
-          this.isLoading = false; // 隱藏進度條
+          this.isLoading = false;
         }
       }
     },
@@ -99,9 +112,22 @@ export default {
     calculateExerciseTime(kcal, exerciseType) {
       // 假設每種運動每分鐘消耗的熱量 (kcal)
       const calorieBurnRate = {
-        跑步: 10, // 跑步每分鐘消耗10卡
-        游泳: 7, // 游泳每分鐘消耗7卡
-        腳踏車: 5, // 腳踏車每分鐘消耗5卡
+        跑步: 10,
+        游泳: 7,
+        腳踏車: 5,
+        籃球: 6,
+        瑜珈: 3,
+        重訓: 8,
+        拳擊: 12,
+        柔道: 10,
+        跆拳道: 9,
+        滑板: 4,
+        街舞: 5,
+        直排輪: 7,
+        羽球: 6,
+        桌球: 4,
+        網球: 7,
+        空手道: 11,
       };
 
       // 計算運動時間：熱量 ÷ 每分鐘消耗的熱量
@@ -111,6 +137,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 /* 樣式可以根據需要進行自定義 */
