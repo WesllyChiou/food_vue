@@ -41,13 +41,13 @@
             <p>請輸入身高 (cm)：<input v-model="height" type="number" placeholder="輸入身高" @input="updateBMR" /></p>
             <p>請輸入年齡 (歲)：<input v-model="age" type="number" placeholder="輸入年齡" @input="updateBMR" /></p>
             <p>選擇性別： 
-              <select v-model="gender" @change="updateBMR">
+              <select v-model="gender" @change="updateBMR" class="styled-select">
                 <option value="male">男</option>
                 <option value="female">女</option>
               </select>
             </p>
             <p>選擇活動水平： 
-              <select v-model="activityLevel" @change="updateBMR">
+              <select v-model="activityLevel" @change="updateBMR" class="styled-select">
                 <option value="1.2">久坐少動</option>
                 <option value="1.375">輕度活動</option>
                 <option value="1.55">中度活動</option>
@@ -194,7 +194,7 @@ export default {
         }
         this.bmr = Math.round(bmr);
 
-        // 計算TDEE
+        // 計算TDEE，根據活動水平
         this.tdee = Math.round(this.bmr * this.activityLevel);
       }
     },
@@ -203,37 +203,31 @@ export default {
 </script>
 
 <style scoped>
-/* 樣式設置 */
+/* 美化下拉選單 */
+.styled-select {
+  width: 200px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.styled-select:focus {
+  border-color: #5d9bfb;
+}
+
+/* 美化頁面 */
 .app-container {
   font-family: Arial, sans-serif;
-  max-width: 600px;
-  margin: 0 auto;
+  text-align: center;
   padding: 20px;
+  background-color: #f4f4f4;
 }
 
 .search-container {
   margin-bottom: 20px;
-}
-
-input {
-  padding: 10px;
-  width: 300px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  padding: 10px 20px;
-  margin-left: 10px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
 }
 
 .food-list {
@@ -241,17 +235,20 @@ button:hover {
 }
 
 .food-item {
-  padding: 15px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.food-item:hover {
-  background-color: #f9f9f9;
+.food-item h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.food-item p {
+  font-size: 14px;
 }
 
 .modal {
@@ -260,7 +257,7 @@ button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -268,23 +265,19 @@ button:hover {
 
 .modal-content {
   background-color: #fff;
-  padding: 20px;
+  padding: 30px;
   border-radius: 8px;
+  width: 80%;
   max-width: 600px;
-  max-height: 80%;
-  overflow-y: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .close-btn {
   position: absolute;
   top: 10px;
-  right: 20px;
-  font-size: 20px;
+  right: 10px;
+  font-size: 30px;
+  color: #555;
   cursor: pointer;
-}
-
-button {
-  margin-top: 20px;
 }
 </style>
