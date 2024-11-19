@@ -171,9 +171,9 @@ export default {
 /* 樣式可以根據需要進行自定義 */
 .app-container {
   font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
   padding: 20px;
-  background-color: #f4f4f9;
-  text-align: center;
 }
 
 .search-container {
@@ -219,9 +219,13 @@ button:hover {
   cursor: pointer;
 }
 
-.food-item h3 {
-  margin: 0;
-  font-size: 1.2em;
+/* 食物清單項目 */
+.food-item {
+  background-color: #f9f9f9;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .food-item p {
@@ -238,28 +242,35 @@ button:hover {
   border-radius: 4px;
 }
 
-/* 彈窗樣式 */
+/* 運動建議彈窗 */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  cursor: pointer; /* 點擊外部可關閉彈窗 */
 }
 
+
+/* 防止點擊內容區域關閉視窗 */
 .modal-content {
   background-color: white;
   padding: 30px;
   border-radius: 8px;
   width: 500px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: auto; /* 點擊內容區域不會關閉彈窗 */
+  max-height: 80vh; /* 設定最大高度 */
+  overflow-y: auto; /* 讓內容區域可滾動 */
 }
 
+/* 關閉按鈕 */
 .close-btn {
   position: absolute;
   top: 10px;
