@@ -203,7 +203,7 @@ export default {
 </script>
 
 <style scoped>
-/* 美化下拉選單 */
+/* 僅針對下拉選單進行樣式修改 */
 .styled-select {
   width: 200px;
   padding: 8px;
@@ -218,7 +218,7 @@ export default {
   border-color: #5d9bfb;
 }
 
-/* 美化頁面 */
+/* 保留原有頁面樣式 */
 .app-container {
   font-family: Arial, sans-serif;
   text-align: center;
@@ -261,6 +261,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-y: auto;
 }
 
 .modal-content {
