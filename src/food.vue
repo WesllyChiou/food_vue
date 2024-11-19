@@ -33,10 +33,8 @@
         <span class="close-btn" @click="closeModal">&times;</span>
         <h3>{{ selectedFood.樣品名稱 }} 的運動建議</h3>
         <p>熱量：{{ selectedFood['修正熱量(kcal)'] }} 大卡</p>
-        
-        <!-- 顯示計算BMR的區域，只有在點擊計算BMR後才顯示 -->
-        <button @click="toggleBMRFields" v-if="!showBMRFields">計算BMR</button>
 
+        <!-- 顯示計算BMR的區域，只有在點擊計算BMR後才顯示 -->
         <div v-if="showBMRFields">
           <div>
             <p>請輸入體重 (kg)：<input v-model="weight" type="number" placeholder="輸入體重" @input="updateBMRAndExerciseTime" /></p>
@@ -53,6 +51,9 @@
           <p v-if="bmr">您的基礎代謝率 (BMR) 為：{{ bmr }} 大卡</p>
         </div>
 
+        <!-- 計算BMR按鈕，移到下方 -->
+        <button @click="toggleBMRFields" v-if="!showBMRFields">計算BMR</button>
+
         <!-- 運動建議清單，顯示在計算BMR區域下方 -->
         <p>您需要進行以下運動來消耗這些熱量：</p>
         <ul>
@@ -64,7 +65,6 @@
     </div>
   </div>
 </template>
-
 
 
 <script>
@@ -101,7 +101,7 @@ export default {
     };
   },
 
-methods: {
+  methods: {
   async searchFood() {
     if (this.searchQuery.trim()) {
       this.foods = [];
@@ -124,6 +124,8 @@ methods: {
   openExerciseModal(food) {
     this.selectedFood = food;
     this.showModal = true;
+    this.showBMRFields = false; // 每次打開彈窗時，隱藏BMR欄位
+    this.bmr = null; // 重置BMR顯示
   },
 
   // 關閉彈窗
@@ -190,7 +192,6 @@ methods: {
     }
   },
 }
-
 
 };
 </script>
