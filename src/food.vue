@@ -203,31 +203,37 @@ export default {
 </script>
 
 <style scoped>
-/* 僅針對下拉選單進行樣式修改 */
-.styled-select {
-  width: 200px;
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  font-size: 14px;
-  transition: border-color 0.3s ease;
-}
-
-.styled-select:focus {
-  border-color: #5d9bfb;
-}
-
-/* 保留原有頁面樣式 */
+/* 保持原樣式 */
 .app-container {
   font-family: Arial, sans-serif;
-  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
   padding: 20px;
-  background-color: #f4f4f4;
 }
 
 .search-container {
   margin-bottom: 20px;
+}
+
+input {
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
 }
 
 .food-list {
@@ -235,20 +241,17 @@ export default {
 }
 
 .food-item {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
-.food-item h3 {
-  margin: 0;
-  font-size: 18px;
-}
-
-.food-item p {
-  font-size: 14px;
+.food-item:hover {
+  background-color: #f9f9f9;
 }
 
 .modal {
@@ -257,28 +260,53 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow-y: auto;
 }
 
 .modal-content {
   background-color: #fff;
-  padding: 30px;
+  padding: 20px;
   border-radius: 8px;
-  width: 80%;
   max-width: 600px;
+  max-height: 80%;
+  overflow-y: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .close-btn {
   position: absolute;
   top: 10px;
-  right: 10px;
-  font-size: 30px;
-  color: #555;
+  right: 20px;
+  font-size: 20px;
   cursor: pointer;
 }
+
+button {
+  margin-top: 20px;
+}
+
+/* 針對下拉選單的樣式優化 */
+select {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.3s ease-in-out;
+}
+
+select:hover {
+  border-color: #4CAF50;
+}
+
+select:focus {
+  outline: none;
+  border-color: #45a049;
+}
 </style>
+
