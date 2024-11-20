@@ -102,19 +102,19 @@ export default {
       tdee: null, // 計算出來的每日總能量消耗 (TDEE)
       showBMRFields: false, // 是否顯示BMR欄位
       exerciseCaloriesPerKg: {
-        "慢走": 1.75,
-        "快走": 2.2,
-        "爬樓梯": 3.0,
-        "跑步": 4.1,
-        "游泳": 3.2,
-        "腳踏車": 2.0,
-        "籃球": 3.0,
-        "瑜珈": 1.5,
-        "拳擊": 5.7,
-        "高爾夫": 1.5,
-        "羽毛球": 2.5,
-        "跳繩": 5.0
-      }, // 每公斤體重的卡路里消耗
+        "慢走": { rate: 3.5, caloriesAt60kg: 105 }, // 每60kg消耗105卡路里的慢走
+        "快走": { rate: 4.0, caloriesAt60kg: 120 },
+        "爬樓梯": { rate: 6.0, caloriesAt60kg: 180 },
+        "跑步": { rate: 7.0, caloriesAt60kg: 210 },
+        "游泳": { rate: 6.5, caloriesAt60kg: 195 },
+        "腳踏車": { rate: 4.5, caloriesAt60kg: 135 },
+        "籃球": { rate: 5.0, caloriesAt60kg: 150 },
+        "瑜珈": { rate: 3.0, caloriesAt60kg: 90 },
+        "拳擊": { rate: 8.0, caloriesAt60kg: 240 },
+        "高爾夫": { rate: 2.0, caloriesAt60kg: 60 },
+        "羽毛球": { rate: 4.0, caloriesAt60kg: 120 },
+        "跳繩": { rate: 10.0, caloriesAt60kg: 300 }
+      }, // 每公斤體重的卡路里消耗及60kg對應的消耗值
       exerciseTimes: {}, // 存儲每種運動消耗熱量所需的時間
     };
   },
@@ -126,12 +126,10 @@ export default {
         this.isLoading = true;
 
         try {
-          const response = await axios.get("https://food-server-ycm2.onrender.com/api/search", {
-            params: { query: this.searchQuery },
-          });
+          const response = await axios.get(`http://your-api-url?query=${this.searchQuery}`);
           this.foods = response.data;
         } catch (error) {
-          console.error("搜尋錯誤:", error);
+          console.error(error);
         } finally {
           this.isLoading = false;
         }
@@ -140,48 +138,13 @@ export default {
 
     openExerciseModal(food) {
       this.selectedFood = food;
-      this.showModal = true;
-      this.showBMRFields = false;
-      this.bmr = null;
-      this.tdee = null;
-
-      // 計算每項運動需要多久時間
       this.calculateExerciseTimes(food['修正熱量(kcal)']);
-    },
-
-    calculateExerciseTimes(foodCalories) {
-      const weight = this.weight || 60; // 使用者體重 (預設60公斤)
-      this.exerciseTimes = {};
-      
-      // 根據每項運動計算時間
-      for (const exercise in this.exerciseCaloriesPerKg) {
-        const caloriesPerKg = this.exerciseCaloriesPerKg[exercise];
-        const time = (foodCalories / (caloriesPerKg * weight)).toFixed(2);
-        this.exerciseTimes[exercise] = time;
-      }
-    },
-
-    // 計算BMR和TDEE的邏輯
-    updateBMR() {
-      if (this.weight && this.height && this.age && this.gender) {
-        let bmr;
-        if (this.gender === "male") {
-          bmr = 66.5 + (13.75 * this.weight) + (5.003 * this.height) - (6.755 * this.age);
-        } else {
-          bmr = 655 + (9.563 * this.weight) + (1.850 * this.height) - (4.676 * this.age);
-        }
-
-        this.bmr = bmr.toFixed(2);
-        this.tdee = (bmr * this.activityLevel).toFixed(2);
-      }
-    },
-
-    toggleBMRFields() {
-      this.showBMRFields = !this.showBMRFields;
+      this.showModal = true;
     },
 
     closeModal() {
       this.showModal = false;
+      this.selectedFood = null;
     },
 
     closeModalOnOutsideClick(event) {
@@ -189,133 +152,93 @@ export default {
         this.closeModal();
       }
     },
+
+    toggleBMRFields() {
+      this.showBMRFields = !this.showBMRFields;
+    },
+
+    updateBMR() {
+      const bmr = this.calculateBMR(this.weight, this.height, this.age, this.gender);
+      this.bmr = bmr;
+      this.tdee = bmr * this.activityLevel;
+    },
+
+    calculateBMR(weight, height, age, gender) {
+      // 使用 Harris-Benedict 方程式計算 BMR
+      if (gender === "male") {
+        return 88.362 + 13.397 * weight + 4.799 * height - 5.677 * age;
+      } else {
+        return 447.593 + 9.247 * weight + 3.098 * height - 4.330 * age;
+      }
+    },
+
+    calculateExerciseTimes(calories) {
+      for (const exercise of this.exerciseTypes) {
+        const caloriesAt60kg = this.exerciseCaloriesPerKg[exercise].caloriesAt60kg;
+        const minutes = (calories / caloriesAt60kg) * 30; // 基於60kg，計算消耗熱量所需的時間
+        this.exerciseTimes[exercise] = Math.round(minutes);
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
-/* 保持原樣式 */
-.app-container {
-  font-family: Arial, sans-serif;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.search-container {
-  margin-bottom: 20px;
-}
-
-input {
-  padding: 10px;
-  width: 300px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  padding: 10px 20px;
-  margin-left: 10px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-.food-list {
-  margin-top: 20px;
-}
-
-.food-item {
-  padding: 15px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-}
-
-.food-item:hover {
-  background-color: #f9f9f9;
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 600px;
-  max-height: 80%;
-  overflow-y: auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-button {
-  margin-top: 20px;
-}
-
-/* 針對下拉選單的樣式優化 */
-select {
-  padding: 10px;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  background-color: #fff;
-  cursor: pointer;
-  transition: border-color 0.3s ease-in-out;
-}
-
-select:hover {
-  border-color: #4CAF50;
-}
-
-select:focus {
-  outline: none;
-  border-color: #45a049;
-}
-.exercise-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px; /* 間距 */
-  margin-top: 10px;
-}
-
-.exercise-item {
-  padding: 8px 12px;
-  background-color: #f0f0f0;
-  border-radius: 4px;
-  font-size: 14px;
-  text-align: center;
-  border: 1px solid #ccc;
-  flex: 0 1 calc(33.33% - 10px); /* 每行最多顯示三個 */
-  box-sizing: border-box;
-}
-
+  .app-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  .search-container {
+    margin-bottom: 20px;
+  }
+  .food-list {
+    margin-top: 20px;
+  }
+  .food-item {
+    background-color: #f4f4f4;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+  }
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 600px;
+  }
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  .exercise-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .exercise-item {
+    margin: 10px;
+    padding: 5px 10px;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 5px;
+  }
+  .styled-select {
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 5px;
+  }
 </style>
-
