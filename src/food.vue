@@ -34,19 +34,19 @@
         <h3>{{ selectedFood.樣品名稱 }} 的運動建議</h3>
         <p>熱量：{{ selectedFood['修正熱量(kcal)'] }} 大卡</p>
 
-        <!-- 顯示計算BMR和TDEE的區域，移到最下方 -->
+        <!-- 顯示計算BMR和TDEE的區域 -->
         <div v-if="showBMRFields">
           <div>
             <p>請輸入體重 (kg)：<input v-model="weight" type="number" placeholder="輸入體重" @input="updateBMR" /></p>
             <p>請輸入身高 (cm)：<input v-model="height" type="number" placeholder="輸入身高" @input="updateBMR" /></p>
             <p>請輸入年齡 (歲)：<input v-model="age" type="number" placeholder="輸入年齡" @input="updateBMR" /></p>
-            <p>選擇性別： 
+            <p>選擇性別：
               <select v-model="gender" @change="updateBMR" class="styled-select">
                 <option value="male">男</option>
                 <option value="female">女</option>
               </select>
             </p>
-            <p>選擇活動水平： 
+            <p>選擇活動水平：
               <select v-model="activityLevel" @change="updateBMR" class="styled-select">
                 <option value="1.2">久坐少動</option>
                 <option value="1.375">輕度活動</option>
@@ -61,20 +61,20 @@
           <p v-if="tdee">您的每日總能量消耗 (TDEE) 為：{{ tdee }} 大卡</p>
         </div>
 
-        <!-- 計算BMR按鈕，移到下方 -->
         <button @click="toggleBMRFields" v-if="!showBMRFields">計算BMR</button>
 
-        <!-- 運動建議清單，顯示在計算BMR區域下方 -->
+        <!-- 水平排列的運動建議清單 -->
         <p>您需要進行以下運動來消耗這些熱量：</p>
-        <ul>
-          <li v-for="exercise in exerciseTypes" :key="exercise">
+        <div class="exercise-container">
+          <span v-for="exercise in exerciseTypes" :key="exercise" class="exercise-item">
             {{ exercise }}：{{ exerciseTimes[exercise] }} 分鐘
-          </li>
-        </ul>
+          </span>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from "axios";
@@ -308,5 +308,23 @@ select:focus {
   outline: none;
   border-color: #45a049;
 }
+.exercise-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* 間距 */
+  margin-top: 10px;
+}
+
+.exercise-item {
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #ccc;
+  flex: 0 1 calc(33.33% - 10px); /* 每行最多顯示三個 */
+  box-sizing: border-box;
+}
+
 </style>
 
