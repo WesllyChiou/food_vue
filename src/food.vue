@@ -194,5 +194,128 @@ export default {
 </script>
 
 <style scoped>
-/* 樣式部分保持不變 */
+/* 保持原樣式 */
+.app-container {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.search-container {
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.food-list {
+  margin-top: 20px;
+}
+
+.food-item {
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.food-item:hover {
+  background-color: #f9f9f9;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  max-height: 80%;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+button {
+  margin-top: 20px;
+}
+
+/* 針對下拉選單的樣式優化 */
+select {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.3s ease-in-out;
+}
+
+select:hover {
+  border-color: #4CAF50;
+}
+
+select:focus {
+  outline: none;
+  border-color: #45a049;
+}
+.exercise-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* 間距 */
+  margin-top: 10px;
+}
+
+.exercise-item {
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #ccc;
+  flex: 0 1 calc(33.33% - 10px); /* 每行最多顯示三個 */
+  box-sizing: border-box;
+}
+
 </style>
+
