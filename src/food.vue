@@ -125,16 +125,20 @@ export default {
         this.foods = [];
         this.isLoading = true;
 
+  
         try {
-          const response = await axios.get(`http://your-api-url?query=${this.searchQuery}`);
+          const response = await axios.get("https://food-server-ycm2.onrender.com/api/search", {
+            params: { query: this.searchQuery },
+          });
           this.foods = response.data;
         } catch (error) {
-          console.error(error);
+          console.error("搜尋錯誤:", error);
         } finally {
           this.isLoading = false;
         }
       }
     },
+
 
     openExerciseModal(food) {
       this.selectedFood = food;
