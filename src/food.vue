@@ -1,191 +1,147 @@
 <template>
   <div class="app-container">
-    <h1>食物熱量查詢</h1>
     <div class="search-container">
-      <input v-model="searchQuery" placeholder="輸入食物名稱或俗名" />
+      <input v-model="searchQuery" placeholder="搜尋食物..." />
       <button @click="searchFood">搜尋</button>
     </div>
 
-    <div v-if="isLoading" class="progress-bar">
-      <p>搜尋中...</p>
-    </div>
-
-    <div v-if="foods.length > 0" class="food-list">
-      <div
-        v-for="food in foods"
-        :key="food._id"
-        class="food-item"
-        @click="openExerciseModal(food)"
-      >
-        <h3>{{ food.樣品名稱 }}</h3>
-        <p>俗名: {{ food.俗名 }}</p>
-        <p>熱量: {{ food['修正熱量(kcal)'] }} 大卡</p>
-        <p>水分: {{ food.水分 }}</p>
-        <p>蛋白: {{ food['粗蛋白(g)'] }}</p>
-        <p>脂肪: {{ food['粗脂肪(g)'] }}</p>
-        <p>碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
+    <div class="food-list">
+      <div v-for="food in filteredFoods" :key="food.id" class="food-item" @click="onFoodItemSelected">
+        <h3>{{ food.name }}</h3>
+        <p>卡路里: {{ food.calories }} kcal</p>
       </div>
     </div>
 
-    <div v-else>
-      <p>查無資料</p>
-    </div>
-
-    <!-- 運動建議彈窗 -->
-    <div v-if="showModal" class="modal" @click="closeModalOnOutsideClick">
-      <div class="modal-content" @click.stop>
-        <span class="close-btn" @click="closeModal">&times;</span>
-        <h3>{{ selectedFood.樣品名稱 }} 的運動建議</h3>
-        <p>熱量：{{ selectedFood['修正熱量(kcal)'] }} 大卡</p>
-
-        <!-- 顯示計算BMR和TDEE的區域 -->
-        <div v-if="showBMRFields">
-          <div>
-            <p>請輸入體重 (kg)：<input v-model="weight" type="number" placeholder="輸入體重" @input="updateBMR" /></p>
-            <p>請輸入身高 (cm)：<input v-model="height" type="number" placeholder="輸入身高" @input="updateBMR" /></p>
-            <p>請輸入年齡 (歲)：<input v-model="age" type="number" placeholder="輸入年齡" @input="updateBMR" /></p>
-            <p>選擇性別： 
-              <select v-model="gender" @change="updateBMR" class="styled-select">
-                <option value="male">男</option>
-                <option value="female">女</option>
-              </select>
-            </p>
-            <p>選擇活動水平：
-              <select v-model="activityLevel" @change="updateBMR" class="styled-select">
-                <option value="1.2">久坐少動</option>
-                <option value="1.375">輕度活動</option>
-                <option value="1.55">中度活動</option>
-                <option value="1.725">高度活動</option>
-                <option value="1.9">非常活躍</option>
-              </select>
-            </p>
-          </div>
-
-          <p v-if="bmr">您的基礎代謝率 (BMR) 為：{{ bmr }} 大卡</p>
-          <p v-if="tdee">您的每日總能量消耗 (TDEE) 為：{{ tdee }} 大卡</p>
-        </div>
-
-        <button @click="toggleBMRFields" v-if="!showBMRFields">計算BMR</button>
-
-        <!-- 水平排列的運動建議清單 -->
-        <p>您需要進行以下運動來消耗這些熱量：</p>
-        <div class="exercise-container">
-          <span v-for="(time, exercise) in exerciseTimes" :key="exercise" class="exercise-item">
-            {{ exercise }}：{{ time }} 分鐘
-          </span>
-        </div>
+    <div class="exercise-container">
+      <div v-for="exercise in exerciseTypes" :key="exercise" class="exercise-item">
+        <h4>{{ exercise }}</h4>
+        <p>運動時間：{{ exerciseTimes[exercise] }} 分鐘</p>
       </div>
     </div>
+
+    <!-- BMR 計算區塊 -->
+    <div v-if="showBMRFields" class="bmr-container">
+      <h2>BMR & TDEE 計算</h2>
+      <label>體重(kg):</label>
+      <input v-model="weight" type="number" />
+      <label>身高(cm):</label>
+      <input v-model="height" type="number" />
+      <label>年齡:</label>
+      <input v-model="age" type="number" />
+      <label>性別:</label>
+      <select v-model="gender">
+        <option value="male">男性</option>
+        <option value="female">女性</option>
+      </select>
+      <label>活動量:</label>
+      <select v-model="activityLevel">
+        <option value="1.2">極少運動</option>
+        <option value="1.375">輕度運動</option>
+        <option value="1.55">中度運動</option>
+        <option value="1.725">重度運動</option>
+        <option value="1.9">極重運動</option>
+      </select>
+      <button @click="calculateBMR">計算BMR</button>
+      <p>BMR: {{ bmr }} kcal</p>
+      <p>TDEE: {{ tdee }} kcal</p>
+    </div>
+
+    <!-- BMR 按鈕 -->
+    <button @click="toggleBMRFields">{{ bmrButtonText }}</button>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   data() {
     return {
-      searchQuery: "", // 用戶輸入的查詢關鍵字
-      foods: [], // 顯示查詢結果
-      isLoading: false, // 顯示進度條
-      showModal: false, // 是否顯示彈窗
-      selectedFood: null, // 被選中的食物資料
-      exerciseTypes: [
-        "慢走", "快走", "爬樓梯", "跑步", "游泳", "腳踏車", "籃球", "瑜珈", "拳擊", "高爾夫", "羽毛球", "跳繩"
-      ], // 新增的運動類型
-      weight: 60, // 預設體重為60公斤
-      height: null, // 用戶輸入的身高
-      age: null, // 用戶輸入的年齡
-      gender: null, // 用戶選擇的性別
-      activityLevel: 1.2, // 用戶選擇的活動水平
-      bmr: null, // 計算出來的基礎代謝率 (BMR)
-      tdee: null, // 計算出來的每日總能量消耗 (TDEE)
-      showBMRFields: false, // 是否顯示BMR欄位
+      searchQuery: '',
+      weight: 60,
+      height: '',
+      age: '',
+      gender: '',
+      activityLevel: '1.2',
+      showBMRFields: true,  // 控制BMR相關欄位顯示/隱藏
+      bmrButtonText: '計算BMR',  // BMR按鈕文字
+      bmr: 0,
+      tdee: 0,
+      exerciseTypes: ['跑步', '游泳', '瑜伽', '健身'],
       exerciseCaloriesPerKg: {
-        "慢走": { rate: 3.5, caloriesAt60kg: 105 }, // 每60kg消耗105卡路里的慢走
-        "快走": { rate: 4.0, caloriesAt60kg: 120 },
-        "爬樓梯": { rate: 6.0, caloriesAt60kg: 180 },
-        "跑步": { rate: 7.0, caloriesAt60kg: 210 },
-        "游泳": { rate: 6.5, caloriesAt60kg: 195 },
-        "腳踏車": { rate: 4.5, caloriesAt60kg: 135 },
-        "籃球": { rate: 5.0, caloriesAt60kg: 150 },
-        "瑜珈": { rate: 3.0, caloriesAt60kg: 90 },
-        "拳擊": { rate: 8.0, caloriesAt60kg: 240 },
-        "高爾夫": { rate: 2.0, caloriesAt60kg: 60 },
-        "羽毛球": { rate: 4.0, caloriesAt60kg: 120 },
-        "跳繩": { rate: 10.0, caloriesAt60kg: 300 }
-      }, // 每公斤體重的卡路里消耗及60kg對應的消耗值
-      exerciseTimes: {}, // 存儲每種運動消耗熱量所需的時間
+        跑步: { rate: 0.06, caloriesAt60kg: 360 },
+        游泳: { rate: 0.08, caloriesAt60kg: 480 },
+        瑜伽: { rate: 0.03, caloriesAt60kg: 180 },
+        健身: { rate: 0.05, caloriesAt60kg: 300 },
+      },
+      exerciseTimes: {},
+      filteredFoods: [],  // 搜索結果
+      foods: [
+        { id: 1, name: '蘋果', calories: 52 },
+        { id: 2, name: '香蕉', calories: 96 },
+        // 更多食物...
+      ],
     };
   },
-
   methods: {
-    async searchFood() {
-      if (this.searchQuery.trim()) {
-        this.foods = [];
-        this.isLoading = true;
-
-  
-        try {
-          const response = await axios.get("https://food-server-ycm2.onrender.com/api/search", {
-            params: { query: this.searchQuery },
-          });
-          this.foods = response.data;
-        } catch (error) {
-          console.error("搜尋錯誤:", error);
-        } finally {
-          this.isLoading = false;
-        }
-      }
-    },
-
-
-    openExerciseModal(food) {
-      this.selectedFood = food;
-      this.calculateExerciseTimes(food['修正熱量(kcal)']);
-      this.showModal = true;
-    },
-
-    closeModal() {
-      this.showModal = false;
-      this.selectedFood = null;
-    },
-
-    closeModalOnOutsideClick(event) {
-      if (event.target === event.currentTarget) {
-        this.closeModal();
-      }
-    },
-
+    // 控制顯示/隱藏BMR相關欄位
     toggleBMRFields() {
-      this.showBMRFields = !this.showBMRFields;
-    },
-
-    updateBMR() {
-      const bmr = this.calculateBMR(this.weight, this.height, this.age, this.gender);
-      this.bmr = bmr;
-      this.tdee = bmr * this.activityLevel;
-      // 更新運動時間，基於新的體重計算
-  this.calculateExerciseTimes(this.selectedFood['修正熱量(kcal)']);
-    },
-
-    calculateBMR(weight, height, age, gender) {
-      // 使用 Harris-Benedict 方程式計算 BMR
-      if (gender === "male") {
-        return 88.362 + 13.397 * weight + 4.799 * height - 5.677 * age;
+      if (this.showBMRFields) {
+        // 隱藏BMR欄位，顯示BMR按鈕
+        this.showBMRFields = false;
+        this.bmrButtonText = '顯示BMR欄位';
       } else {
-        return 447.593 + 9.247 * weight + 3.098 * height - 4.330 * age;
+        // 顯示BMR欄位，隱藏BMR按鈕
+        this.showBMRFields = true;
+        this.bmrButtonText = '計算BMR';
       }
     },
 
-    calculateExerciseTimes(calories) {
-      for (const exercise of this.exerciseTypes) {
-    const caloriesAtKg = this.exerciseCaloriesPerKg[exercise].caloriesAt60kg * (this.weight / 60);
-    const minutes = (calories / caloriesAtKg) * 30; // 基於使用者體重，計算消耗熱量所需的時間
-    this.exerciseTimes[exercise] = Math.round(minutes);
-      }
+    // 點選食物項目時清空BMR資料
+    onFoodItemSelected() {
+      this.bmr = 0;
+      this.tdee = 0;
+      this.weight = 60;  // 重設體重為預設值
+      this.clearBMRInputs();
     },
-  },
+
+    // 清空BMR計算欄位
+    clearBMRInputs() {
+      this.height = '';
+      this.age = '';
+      this.gender = '';
+    },
+
+    // 計算BMR
+    calculateBMR() {
+      if (this.gender === 'male') {
+        this.bmr = 10 * this.weight + 6.25 * this.height - 5 * this.age + 5;
+      } else {
+        this.bmr = 10 * this.weight + 6.25 * this.height - 5 * this.age - 161;
+      }
+      this.tdee = this.bmr * this.activityLevel;
+    },
+
+    // 搜尋食物
+    searchFood() {
+      this.filteredFoods = this.foods.filter(food =>
+        food.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    },
+
+    // 根據體重和運動消耗的卡路里計算運動時間
+    calculateExerciseTimes(calories) {
+      const exerciseTimes = {};
+
+      this.exerciseTypes.forEach((exercise) => {
+        const rate = this.exerciseCaloriesPerKg[exercise]?.rate || 0;
+        const caloriesAt60kg = this.exerciseCaloriesPerKg[exercise]?.caloriesAt60kg || 0;
+        const time = calories / caloriesAt60kg * 60; // 計算需要的時間（分鐘）
+
+        exerciseTimes[exercise] = time.toFixed(1); // 保留1位小數
+      });
+
+      this.exerciseTimes = exerciseTimes;
+    }
+  }
 };
 </script>
 
