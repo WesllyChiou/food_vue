@@ -164,33 +164,39 @@ export default {
     this.bmr = null;
     this.tdee = null;
 
-    // 根據食物熱量動態調整運動時間
     const foodCalories = food['修正熱量(kcal)']; // 食物熱量
-    const calorieMultiplier = 100; // 每 100 大卡所需運動時間基準
-    const baseExerciseTime = 30; // 基本的運動時間
-
-    // 計算每種運動所需的時間，根據食物的熱量調整
-    this.exerciseTimes = {
-      "跑步": Math.round((foodCalories / calorieMultiplier) * baseExerciseTime),
-      "游泳": Math.round((foodCalories / calorieMultiplier) * 45),
-      "腳踏車": Math.round((foodCalories / calorieMultiplier) * 40),
-      "籃球": Math.round((foodCalories / calorieMultiplier) * 50),
-      "瑜珈": Math.round((foodCalories / calorieMultiplier) * 60),
-      "重訓": Math.round((foodCalories / calorieMultiplier) * 45),
-      "拳擊": Math.round((foodCalories / calorieMultiplier) * 30),
-      "柔道": Math.round((foodCalories / calorieMultiplier) * 40),
-      "跆拳道": Math.round((foodCalories / calorieMultiplier) * 45),
-      "滑板": Math.round((foodCalories / calorieMultiplier) * 30),
-      "街舞": Math.round((foodCalories / calorieMultiplier) * 40),
-      "直排輪": Math.round((foodCalories / calorieMultiplier) * 35),
-      "羽球": Math.round((foodCalories / calorieMultiplier) * 40),
-      "桌球": Math.round((foodCalories / calorieMultiplier) * 25),
-      "網球": Math.round((foodCalories / calorieMultiplier) * 40),
-      "空手道": Math.round((foodCalories / calorieMultiplier) * 50),
+    const weight = this.userWeight || 60; // 使用者體重 (預設 60 公斤)
+    
+    // MET 值表 (運動名稱: METs)
+    const exerciseMETs = {
+        "慢走": 3.5,
+        "快走": 5.5,
+        "慢跑": 8.2,
+        "快跑": 12.7,
+        "腳踏車(一般速度)": 4,
+        "腳踏車(快)": 8.4,
+        "瑜珈": 3,
+        "游泳(慢)": 6.3,
+        "籃球(半場)": 6.3,
+        "籃球(全場)": 8.3,
+        "跳繩(慢)": 8.4,
+        "跳繩(快)": 12.6,
+        "拳擊": 11.4,
+        "太極拳": 4.2,
+        "羽毛球": 5.1,
+        "網球": 6.6
     };
-  },
 
+    // 計算各運動所需時間
+    this.exerciseTimes = {};
+    Object.keys(exerciseMETs).forEach(exercise => {
+        const METs = exerciseMETs[exercise];
+        const calorieBurnRate = METs * weight * 0.0175; // 每分鐘消耗的熱量
+        this.exerciseTimes[exercise] = Math.ceil(foodCalories / calorieBurnRate); // 所需時間 (分鐘)
+    });
+},
 
+  
     closeModal() {
       this.showModal = false;
       this.selectedFood = null;
