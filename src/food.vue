@@ -161,6 +161,8 @@ export default {
       const bmr = this.calculateBMR(this.weight, this.height, this.age, this.gender);
       this.bmr = bmr;
       this.tdee = bmr * this.activityLevel;
+      // 更新運動時間，基於新的體重計算
+  this.calculateExerciseTimes(this.selectedFood['修正熱量(kcal)']);
     },
 
     calculateBMR(weight, height, age, gender) {
@@ -174,9 +176,9 @@ export default {
 
     calculateExerciseTimes(calories) {
       for (const exercise of this.exerciseTypes) {
-        const caloriesAt60kg = this.exerciseCaloriesPerKg[exercise].caloriesAt60kg;
-        const minutes = (calories / caloriesAt60kg) * 30; // 基於60kg，計算消耗熱量所需的時間
-        this.exerciseTimes[exercise] = Math.round(minutes);
+    const caloriesAtKg = this.exerciseCaloriesPerKg[exercise].caloriesAt60kg * (this.weight / 60);
+    const minutes = (calories / caloriesAtKg) * 30; // 基於使用者體重，計算消耗熱量所需的時間
+    this.exerciseTimes[exercise] = Math.round(minutes);
       }
     },
   },
