@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <h1>熱量查詢系統</h1>
+    <h1>食物熱量查詢</h1>
     <div class="search-container">
       <input v-model="searchQuery" placeholder="輸入食物名稱或俗名" />
       <button @click="searchFood">搜尋</button>
@@ -20,6 +20,10 @@
         <h3>{{ food.樣品名稱 }}</h3>
         <p>俗名: {{ food.俗名 }}</p>
         <p>熱量: {{ food['修正熱量(kcal)'] }} 大卡</p>
+        <p>水分: {{ food.水分 }}</p>
+        <p>蛋白: {{ food['粗蛋白(g)'] }}</p>
+        <p>脂肪: {{ food['粗脂肪(g)'] }}</p>
+        <p>碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
       </div>
     </div>
 
