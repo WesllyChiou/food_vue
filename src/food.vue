@@ -187,14 +187,21 @@ export default {
         "網球": 6.6
     };
 
-    // 計算各運動所需時間
+    // 計算每項運動的時間
     this.exerciseTimes = {};
+
     Object.keys(exerciseMETs).forEach(exercise => {
-        const METs = exerciseMETs[exercise];
-        const calorieBurnRate = METs * weight * 0.0175; // 每分鐘消耗的熱量
-        this.exerciseTimes[exercise] = Math.ceil(foodCalories / calorieBurnRate); // 所需時間 (分鐘)
+        const metValue = exerciseMETs[exercise];
+        let time = (foodCalories / (metValue * weight * 0.0175));
+        
+        // 四捨五入到小數點第一位
+        time = time ? time.toFixed(1) : 0;  // 小數點第一位顯示
+
+        // 確保顯示時間，即使是負數或 0
+        this.exerciseTimes[exercise] = time;
     });
 },
+
 
   
     closeModal() {
