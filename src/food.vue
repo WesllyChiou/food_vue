@@ -167,43 +167,34 @@ export default {
     const foodCalories = food['修正熱量(kcal)']; // 食物熱量
     const weight = this.userWeight || 60; // 使用者體重 (預設 60 公斤)
     
-    // MET 值表 (運動名稱: METs)
-    const exerciseMETs = {
-        "慢走": 3.5,
-        "快走": 5.5,
-        "慢跑": 8.2,
-        "快跑": 12.7,
-        "腳踏車(一般速度)": 4,
-        "腳踏車(快)": 8.4,
-        "瑜珈": 3,
-        "游泳(慢)": 6.3,
-        "籃球(半場)": 6.3,
-        "籃球(全場)": 8.3,
-        "跳繩(慢)": 8.4,
-        "跳繩(快)": 12.6,
-        "拳擊": 11.4,
-        "太極拳": 4.2,
-        "羽毛球": 5.1,
-        "網球": 6.6
+    // 每30分鐘消耗的熱量 (根據不同體重)
+    const exerciseCalories = {
+        "慢走": { 40: 70, 50: 87.5, 60: 105, 70: 122.5 },
+        "快走": { 40: 110, 50: 137.5, 60: 165, 70: 192.5 },
+        "慢跑": { 40: 164, 50: 205, 60: 246, 70: 287 },
+        "快跑": { 40: 254, 50: 317.5, 60: 381, 70: 444.5 },
+        "瑜珈": { 40: 60, 50: 75, 60: 90, 70: 105 },
+        "網球": { 40: 132, 50: 165, 60: 198, 70: 269.5 },
+        "游泳(慢)": { 40: 126, 50: 157.5, 60: 189, 70: 220.5 },
+        // 你可以依照這個方式為其他運動也添加相應的數據
     };
 
-    // 計算每項運動的時間
-    this.exerciseTimes = {};
+    // 根據用戶體重選擇正確的消耗熱量數據
+    const exerciseData = exerciseCalories[this.selectedFood.運動名稱];
 
-    Object.keys(exerciseMETs).forEach(exercise => {
-        const metValue = exerciseMETs[exercise];
-        let time = (foodCalories / (metValue * weight * 0.0175));
-        
-        // 四捨五入到小數點第一位
-        time = time ? time.toFixed(1) : 0;  // 小數點第一位顯示
+    // 計算每項運動消耗的熱量（假設選擇60kg，顯示相對應數據）
+    const caloriesBurned = exerciseData[weight] || 0;
 
-        // 確保顯示時間，即使是負數或 0
-        this.exerciseTimes[exercise] = time;
-    });
+    // 計算需要運動的時間來消耗食物的熱量
+    const timeToBurnCalories = (foodCalories / caloriesBurned) * 30; // 因為資料是每30分鐘的熱量
+
+    // 顯示結果
+    this.exerciseTimes = {
+        [this.selectedFood.運動名稱]: timeToBurnCalories.toFixed(1)
+    };
 },
 
 
-  
     closeModal() {
       this.showModal = false;
       this.selectedFood = null;
