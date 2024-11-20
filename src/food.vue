@@ -158,12 +158,38 @@ export default {
     },
 
     openExerciseModal(food) {
-      this.selectedFood = food;
-      this.showModal = true;
-      this.showBMRFields = false;
-      this.bmr = null;
-      this.tdee = null;
-    },
+    this.selectedFood = food;
+    this.showModal = true;
+    this.showBMRFields = false;
+    this.bmr = null;
+    this.tdee = null;
+
+    // 根據食物熱量動態調整運動時間
+    const foodCalories = food['修正熱量(kcal)']; // 食物熱量
+    const calorieMultiplier = 100; // 每 100 大卡所需運動時間基準
+    const baseExerciseTime = 30; // 基本的運動時間
+
+    // 計算每種運動所需的時間，根據食物的熱量調整
+    this.exerciseTimes = {
+      "跑步": Math.round((foodCalories / calorieMultiplier) * baseExerciseTime),
+      "游泳": Math.round((foodCalories / calorieMultiplier) * 45),
+      "腳踏車": Math.round((foodCalories / calorieMultiplier) * 40),
+      "籃球": Math.round((foodCalories / calorieMultiplier) * 50),
+      "瑜珈": Math.round((foodCalories / calorieMultiplier) * 60),
+      "重訓": Math.round((foodCalories / calorieMultiplier) * 45),
+      "拳擊": Math.round((foodCalories / calorieMultiplier) * 30),
+      "柔道": Math.round((foodCalories / calorieMultiplier) * 40),
+      "跆拳道": Math.round((foodCalories / calorieMultiplier) * 45),
+      "滑板": Math.round((foodCalories / calorieMultiplier) * 30),
+      "街舞": Math.round((foodCalories / calorieMultiplier) * 40),
+      "直排輪": Math.round((foodCalories / calorieMultiplier) * 35),
+      "羽球": Math.round((foodCalories / calorieMultiplier) * 40),
+      "桌球": Math.round((foodCalories / calorieMultiplier) * 25),
+      "網球": Math.round((foodCalories / calorieMultiplier) * 40),
+      "空手道": Math.round((foodCalories / calorieMultiplier) * 50),
+    };
+  },
+
 
     closeModal() {
       this.showModal = false;
