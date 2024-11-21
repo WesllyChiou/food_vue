@@ -75,6 +75,13 @@
         </div>
       </div>
     </div>
+
+    <footer class="app-footer">
+      <p>資料來源：<a href="https://food-server-ycm2.onrender.com/api" target="_blank">食品資料 API</a></p>
+      <p>聯絡信箱：<a href="mailto:example@example.com">example@example.com</a></p>
+      <p>目前有 {{ viewCount }} 人正在瀏覽</p>
+      <p>&copy; 2024 我的網站</p>
+    </footer>
   </div>
 </template>
 
@@ -323,7 +330,7 @@ button:hover {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  max-width: 800px;
+  max-width: 1000px;
   width: 90%;
   text-align: left;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -411,5 +418,24 @@ p {
     width: 95%;
   }
 }
+
+.app-footer {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+}
+
+.app-footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
 </style>
 
