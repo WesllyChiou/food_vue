@@ -438,5 +438,55 @@ p {
   text-decoration: underline;
 }
 
+/* 頁腳資訊區的樣式 */
+.footer-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* 支援多行顯示 */
+  padding: 20px;
+  margin-top: 30px;
+  background: linear-gradient(135deg, #4e54c8, #8f94fb); /* 漸變背景色 */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 柔和陰影 */
+  border-radius: 10px; /* 圓角效果 */
+  color: white;
+  font-size: 14px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* 文字陰影增加層次感 */
+}
+
+.footer-info span {
+  margin-right: 15px;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.1); /* 半透明背景色讓文字更清晰 */
+  border-radius: 5px; /* 小圓角 */
+}
+
+.footer-info span:last-child {
+  margin-right: 0;
+}
+
+.footer-info a {
+  color: #ffdc61; /* 強調連結顏色 */
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+.footer-info a:hover {
+  color: #fff; /* 滑鼠懸停時變白 */
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .footer-info {
+    flex-direction: column; /* 小螢幕下改為垂直排列 */
+    text-align: center;
+  }
+
+  .footer-info span {
+    margin-bottom: 10px; /* 增加垂直間距 */
+  }
+}
+
 </style>
 
