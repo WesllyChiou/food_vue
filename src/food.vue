@@ -102,18 +102,18 @@ export default {
       tdee: null, // 計算出來的每日總能量消耗 (TDEE)
       showBMRFields: true, // 顯示BMR欄位
       exerciseCaloriesPerKg: {
-        "慢走": { rate: 3.5, caloriesAt60kg: 105 },
-        "快走": { rate: 4.0, caloriesAt60kg: 120 },
-        "爬樓梯": { rate: 6.0, caloriesAt60kg: 180 },
-        "跑步": { rate: 7.0, caloriesAt60kg: 210 },
-        "游泳": { rate: 6.5, caloriesAt60kg: 195 },
-        "腳踏車": { rate: 4.5, caloriesAt60kg: 135 },
-        "籃球": { rate: 5.0, caloriesAt60kg: 150 },
-        "瑜珈": { rate: 3.0, caloriesAt60kg: 90 },
-        "拳擊": { rate: 8.0, caloriesAt60kg: 240 },
-        "高爾夫": { rate: 2.0, caloriesAt60kg: 60 },
-        "羽毛球": { rate: 4.0, caloriesAt60kg: 120 },
-        "跳繩": { rate: 10.0, caloriesAt60kg: 300 }
+        "慢走": { rate: 0.035 },
+        "快走": { rate: 0.04 },
+        "爬樓梯": { rate: 0.06 },
+        "跑步": { rate: 0.082 },
+        "游泳": { rate: 0.065 },
+        "腳踏車": { rate: 0.045 },
+        "籃球": { rate: 0.05 },
+        "瑜珈": { rate: 0.03 },
+        "拳擊": { rate: 0.08 },
+        "高爾夫": { rate: 0.02 },
+        "羽毛球": { rate: 0.04 },
+        "跳繩": { rate: 0.1 }
       },
       exerciseTimes: {}, // 存儲每種運動消耗熱量所需的時間
     };
@@ -188,14 +188,32 @@ export default {
     },
 
     calculateExerciseTimes(calories) {
-      for (const exercise of this.exerciseTypes) {
-        const caloriesPerKg = this.exerciseCaloriesPerKg[exercise];
-        this.exerciseTimes[exercise] = Math.ceil((calories / caloriesPerKg.caloriesAt60kg) * 60); // 計算每種運動的分鐘數
-      }
-    }
+  const times = {};
+  
+  // 遍歷所有運動
+  this.exerciseTypes.forEach((exercise) => {
+    const caloriesPerKg = this.exerciseCaloriesPerKg[exercise]?.rate || 0;  // 每公斤的消耗熱量
+    const caloriesIn30Minutes = caloriesPerKg * this.weight * 0.5;  // 30分鐘消耗的熱量（0.5小時）
+    const targetCalories = calories;  // 食物的總熱量
+    
+    // 計算需要幾次運動來消耗這些食物的熱量，保留小數點第一位
+    const neededSessions = targetCalories / caloriesIn30Minutes; // 直接計算，不進行四捨五入
+    const sessionsWithOneDecimal = parseFloat(neededSessions.toFixed(1)); // 保留小數點第一位
+    
+    // 設定每個運動的所需時間為 30 分鐘的次數
+    times[exercise] = (sessionsWithOneDecimal * 30).toFixed(1);  // 每次運動時間是 30 分鐘，並保留一位小數
+  });
+
+  this.exerciseTimes = times;
+}
+
   },
 };
 </script>
+
+<style scoped>
+/* Your styles here */
+</style>
 
 
 <style scoped>
@@ -292,6 +310,8 @@ button:hover {
   width: 90%;
   text-align: left;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  max-height: 80vh;  /* 限制模態框的最大高度 */
+  overflow-y: auto;  /* 允許垂直滾動 */
 }
 
 .close-btn {
