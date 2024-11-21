@@ -102,18 +102,20 @@ export default {
       tdee: null, // 計算出來的每日總能量消耗 (TDEE)
       showBMRFields: true, // 顯示BMR欄位
       exerciseCaloriesPerKg: {
-        "慢走": { rate: 0.035 },
-        "快走": { rate: 0.04 },
-        "爬樓梯": { rate: 0.06 },
-        "跑步": { rate: 0.082 },
-        "游泳": { rate: 0.065 },
-        "腳踏車": { rate: 0.045 },
-        "籃球": { rate: 0.05 },
-        "瑜珈": { rate: 0.03 },
-        "拳擊": { rate: 0.08 },
-        "高爾夫": { rate: 0.02 },
-        "羽毛球": { rate: 0.04 },
-        "跳繩": { rate: 0.1 }
+        "慢走(4公里/時)": { rate: 3.5 },
+        "快走、健走(6.0公里/時)": { rate: 5.5 },
+        "下樓梯	3.2": { rate: 3.2 },
+        "上樓梯	8.4": { rate: 8.4 },
+        "慢跑(8公里/時)": { rate: 8.2 },
+        "快跑(12公里/時)": { rate: 12.7 },
+        "游泳(慢)": { rate: 6.3 },
+        "騎腳踏車(一般速度，10公里/時)": { rate: 4 },
+        "籃球(半場)": { rate: 6.3 },
+        "瑜珈": { rate: 3 },
+        "拳擊": { rate: 11.4 },
+        "高爾夫": { rate: 5 },
+        "羽毛球": { rate:5.1 },
+        "跳繩(慢)": { rate: 8.4 }
       },
       exerciseTimes: {}, // 存儲每種運動消耗熱量所需的時間
     };
@@ -176,6 +178,7 @@ export default {
         const bmr = this.calculateBMR(this.weight, this.height, this.age, this.gender);
         this.bmr = Math.round(bmr); // 四捨五入為整數
         this.tdee = Math.round(bmr * this.activityLevel); // 四捨五入為整數
+        this.calculateExerciseTimes(this.selectedFood['修正熱量(kcal)']);
       }
     },
 
@@ -190,48 +193,26 @@ export default {
     calculateExerciseTimes(calories) {
   const times = {};
   
-  // 檢查體重是否有效
-  if (!this.weight || this.weight <= 0) {
-    alert("請輸入有效的體重！");
-    return;
-  }
-
-  // 遍歷所有運動類型
+  // 遍歷所有運動
   this.exerciseTypes.forEach((exercise) => {
-    // 從 exerciseCaloriesPerKg 中獲取每公斤消耗的熱量
-    const caloriesPerKg = this.exerciseCaloriesPerKg[exercise]?.rate || 0;
-
-    // 如果 caloriesPerKg 為零或無效，跳過這項運動
-    if (caloriesPerKg === 0) {
-      times[exercise] = "無數據";
-      return;
-    }
-
-    // 計算每30分鐘運動所消耗的熱量
+    const caloriesPerKg = this.exerciseCaloriesPerKg[exercise]?.rate || 0;  // 每公斤的消耗熱量
     const caloriesIn30Minutes = caloriesPerKg * this.weight * 0.5;  // 30分鐘消耗的熱量（0.5小時）
-
-    // 計算需要幾次運動來消耗給定熱量
-    const neededSessions = calories / caloriesIn30Minutes;
+    const targetCalories = calories;  // 食物的總熱量
     
-    // 保留一位小數並轉換為次數
-    const sessionsWithOneDecimal = parseFloat(neededSessions.toFixed(1));
-
-    // 將每個運動所需的時間設置為 30 分鐘的次數
-    times[exercise] = (sessionsWithOneDecimal * 30).toFixed(1);  // 保留一位小數
+    // 計算需要幾次運動來消耗這些食物的熱量，保留小數點第一位
+    const neededSessions = targetCalories / caloriesIn30Minutes; // 直接計算，不進行四捨五入
+    const sessionsWithOneDecimal = parseFloat(neededSessions.toFixed(1)); // 保留小數點第一位
+    
+    // 設定每個運動的所需時間為 30 分鐘的次數
+    times[exercise] = (sessionsWithOneDecimal * 30).toFixed(1);  // 每次運動時間是 30 分鐘，並保留一位小數
   });
 
-  // 更新 UI 或其他地方使用的運動時間
   this.exerciseTimes = times;
 }
 
-
-  },
+  }
 };
 </script>
-
-<style scoped>
-/* Your styles here */
-</style>
 
 
 <style scoped>
