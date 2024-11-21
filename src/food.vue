@@ -328,16 +328,22 @@ button:hover {
 
 .exercise-container {
   display: flex;
-  flex-wrap: nowrap; /* 防止换行 */
-  overflow-x: auto; /* 如果内容超出宽度，允许水平滚动 */
+  flex-wrap: wrap; /* 啟用自動換行 */
+  justify-content: center; /* 水平居中 */
+  gap: 10px; /* 每個運動項目的間距 */
+  margin-top: 20px;
 }
 
 .exercise-item {
-  margin-right: 15px;
-  margin-bottom: 10px;
-  white-space: nowrap; /* 防止文字换行 */
-  padding: 5px;
+  flex: 0 0 calc(20% - 10px); /* 每個項目占容器寬度的20%，考慮間距 */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+  text-align: center;
+  font-size: 14px;
 }
+
 
 
 input[type="number"],
