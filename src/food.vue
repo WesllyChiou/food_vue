@@ -196,18 +196,18 @@ export default {
   // 遍歷所有運動
   this.exerciseTypes.forEach((exercise) => {
     const caloriesPerKg = this.exerciseCaloriesPerKg[exercise]?.rate || 0;  // 每公斤的消耗熱量
-    const caloriesIn30Minutes = caloriesPerKg * this.weight * 1;  // 30分鐘消耗的熱量（1小時）
-    const targetCalories = calories;  // 食物的總熱量
+    const caloriesInMinutes = caloriesPerKg * this.weight * 1;  // 60分鐘消耗的熱量（1小時）例如 75KG*跑步8.2*1小時
+    const targetCalories = calories;  // 食物的總熱量 例如346
     
     // 計算需要幾次運動來消耗這些食物的熱量，保留小數點第一位
-    const neededSessions = targetCalories / caloriesIn30Minutes; // 直接計算，不進行四捨五入
+    const neededSessions = targetCalories / caloriesInMinutes; // 直接計算，不進行四捨五入
      // 檢查是否為 Infinity
      if (neededSessions === Infinity || isNaN(neededSessions)) {
       times[exercise] = "";
     } else {
       const sessionsWithOneDecimal = parseFloat(neededSessions.toFixed(1)); // 保留小數點第一位
-      // 設定每個運動的所需時間為 30 分鐘的次數
-      times[exercise] = (sessionsWithOneDecimal * 60).toFixed(1);  // 每次運動時間是 30 分鐘，並保留一位小數
+      // 設定每個運動的所需時間為 60 分鐘的次數
+      times[exercise] = (sessionsWithOneDecimal * 60).toFixed(1);  // 每次運動時間是 60 分鐘，並保留一位小數
     }
   });
 
@@ -342,8 +342,11 @@ button:hover {
   background-color: #f1f1f1;
   text-align: center;
   font-size: 14px;
-}
 
+  white-space: nowrap; /* 禁止換行 */
+  overflow: hidden;    /* 隱藏超出範圍的部分 */
+  text-overflow: ellipsis; /* 用省略號表示被隱藏的部分 */
+}
 
 
 input[type="number"],
