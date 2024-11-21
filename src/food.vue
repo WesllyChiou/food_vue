@@ -190,22 +190,40 @@ export default {
     calculateExerciseTimes(calories) {
   const times = {};
   
-  // 遍歷所有運動
+  // 檢查體重是否有效
+  if (!this.weight || this.weight <= 0) {
+    alert("請輸入有效的體重！");
+    return;
+  }
+
+  // 遍歷所有運動類型
   this.exerciseTypes.forEach((exercise) => {
-    const caloriesPerKg = this.exerciseCaloriesPerKg[exercise]?.rate || 0;  // 每公斤的消耗熱量
+    // 從 exerciseCaloriesPerKg 中獲取每公斤消耗的熱量
+    const caloriesPerKg = this.exerciseCaloriesPerKg[exercise]?.rate || 0;
+
+    // 如果 caloriesPerKg 為零或無效，跳過這項運動
+    if (caloriesPerKg === 0) {
+      times[exercise] = "無數據";
+      return;
+    }
+
+    // 計算每30分鐘運動所消耗的熱量
     const caloriesIn30Minutes = caloriesPerKg * this.weight * 0.5;  // 30分鐘消耗的熱量（0.5小時）
-    const targetCalories = calories;  // 食物的總熱量
+
+    // 計算需要幾次運動來消耗給定熱量
+    const neededSessions = calories / caloriesIn30Minutes;
     
-    // 計算需要幾次運動來消耗這些食物的熱量，保留小數點第一位
-    const neededSessions = targetCalories / caloriesIn30Minutes; // 直接計算，不進行四捨五入
-    const sessionsWithOneDecimal = parseFloat(neededSessions.toFixed(1)); // 保留小數點第一位
-    
-    // 設定每個運動的所需時間為 30 分鐘的次數
-    times[exercise] = (sessionsWithOneDecimal * 30).toFixed(1);  // 每次運動時間是 30 分鐘，並保留一位小數
+    // 保留一位小數並轉換為次數
+    const sessionsWithOneDecimal = parseFloat(neededSessions.toFixed(1));
+
+    // 將每個運動所需的時間設置為 30 分鐘的次數
+    times[exercise] = (sessionsWithOneDecimal * 30).toFixed(1);  // 保留一位小數
   });
 
+  // 更新 UI 或其他地方使用的運動時間
   this.exerciseTimes = times;
 }
+
 
   },
 };
