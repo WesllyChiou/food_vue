@@ -201,10 +201,14 @@ export default {
     
     // 計算需要幾次運動來消耗這些食物的熱量，保留小數點第一位
     const neededSessions = targetCalories / caloriesIn30Minutes; // 直接計算，不進行四捨五入
-    const sessionsWithOneDecimal = parseFloat(neededSessions.toFixed(1)); // 保留小數點第一位
-    
-    // 設定每個運動的所需時間為 30 分鐘的次數
-    times[exercise] = (sessionsWithOneDecimal * 30).toFixed(1);  // 每次運動時間是 30 分鐘，並保留一位小數
+     // 檢查是否為 Infinity
+     if (neededSessions === Infinity || isNaN(neededSessions)) {
+      times[exercise] = "無法計算";
+    } else {
+      const sessionsWithOneDecimal = parseFloat(neededSessions.toFixed(1)); // 保留小數點第一位
+      // 設定每個運動的所需時間為 30 分鐘的次數
+      times[exercise] = (sessionsWithOneDecimal * 30).toFixed(1);  // 每次運動時間是 30 分鐘，並保留一位小數
+    }
   });
 
   this.exerciseTimes = times;
@@ -324,15 +328,18 @@ button:hover {
 
 .exercise-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap;  /* 允許換行 */
+  gap: 10px; /* 調整項目之間的間距 */
 }
 
 .exercise-item {
-  margin: 5px;
+  
   padding: 10px;
   background-color: #f0f0f0;
   border-radius: 4px;
   font-size: 16px;
+  flex: 0 0 calc(20% - 10px); /* 每個項目占據 1/5 的寬度，並減去間距 */
+  box-sizing: border-box;
 }
 
 input[type="number"],
