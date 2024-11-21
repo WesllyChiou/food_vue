@@ -196,18 +196,18 @@ export default {
   // 遍歷所有運動
   this.exerciseTypes.forEach((exercise) => {
     const caloriesPerKg = this.exerciseCaloriesPerKg[exercise]?.rate || 0;  // 每公斤的消耗熱量
-    const caloriesIn30Minutes = caloriesPerKg * this.weight * 0.5;  // 30分鐘消耗的熱量（0.5小時）
+    const caloriesIn30Minutes = caloriesPerKg * this.weight * 1;  // 30分鐘消耗的熱量（1小時）
     const targetCalories = calories;  // 食物的總熱量
     
     // 計算需要幾次運動來消耗這些食物的熱量，保留小數點第一位
     const neededSessions = targetCalories / caloriesIn30Minutes; // 直接計算，不進行四捨五入
      // 檢查是否為 Infinity
      if (neededSessions === Infinity || isNaN(neededSessions)) {
-      times[exercise] = "無法計算";
+      times[exercise] = "";
     } else {
       const sessionsWithOneDecimal = parseFloat(neededSessions.toFixed(1)); // 保留小數點第一位
       // 設定每個運動的所需時間為 30 分鐘的次數
-      times[exercise] = (sessionsWithOneDecimal * 30).toFixed(1);  // 每次運動時間是 30 分鐘，並保留一位小數
+      times[exercise] = (sessionsWithOneDecimal * 60).toFixed(1);  // 每次運動時間是 30 分鐘，並保留一位小數
     }
   });
 
