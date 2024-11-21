@@ -421,7 +421,7 @@ p {
 }
 
 .app-footer {
-  background-color: #282828; /* 深色背景 */
+  background-color: #faf0e6; /* 深色背景 */
   color: #fff; /* 白色文字 */
   padding: 20px; /* 頁腳內邊距 */
   text-align: center; /* 文字置中 */
