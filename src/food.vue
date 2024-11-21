@@ -436,17 +436,33 @@ p {
   margin-right: 10px;
 }
 
+/* 設定頁腳容器 */
 .app-footer {
-  position: fixed;  /* 或使用 sticky */
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #333;
-  color: white;
-  text-align: center;
-  padding: 10px 0;
-  z-index: 1000;  /* 确保页脚在页面内容上方 */
+  background-color: #000; /* 設定黑色背景 */
+  color: #fff; /* 白色字體 */
+  padding: 10px 0; /* 降低內邊距 */
+  display: flex; /* 使用 flexbox 讓內容水平排列 */
+  justify-content: space-between; /* 讓內容兩端對齊 */
+  align-items: center; /* 垂直居中對齊 */
+  flex-wrap: nowrap; /* 禁止換行 */
 }
+
+/* 設定頁腳內部元素 */
+.app-footer p {
+  margin: 0 15px; /* 設定左右邊距 */
+  white-space: nowrap; /* 防止文字換行 */
+}
+
+/* 設定頁腳中的聯絡信箱 */
+.app-footer a {
+  color: #fff; /* 連結顏色為白色 */
+  text-decoration: none; /* 去掉下劃線 */
+}
+
+.app-footer p:last-child {
+  margin-right: 0; /* 最後一個元素右邊距為0 */
+}
+
 
 
 </style>
