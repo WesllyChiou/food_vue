@@ -421,72 +421,36 @@ p {
 }
 
 .app-footer {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #f9f9f9;
-  text-align: center;
-  font-size: 14px;
-  color: #555;
+  background-color: #282828; /* 深色背景 */
+  color: #fff; /* 白色文字 */
+  padding: 20px; /* 頁腳內邊距 */
+  text-align: center; /* 文字置中 */
+  font-size: 14px; /* 文字大小 */
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* 添加陰影效果 */
+}
+
+.app-footer p {
+  margin: 5px 0; /* 設定段落間距 */
 }
 
 .app-footer a {
-  color: #007bff;
-  text-decoration: none;
+  color: #ff9800; /* 設定鏈接顏色 */
+  text-decoration: none; /* 去除鏈接下劃線 */
 }
 
 .app-footer a:hover {
-  text-decoration: underline;
+  text-decoration: underline; /* 鼠標懸停時顯示下劃線 */
 }
 
-/* 頁腳資訊區的樣式 */
-.footer-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap; /* 支援多行顯示 */
-  padding: 20px;
-  margin-top: 30px;
-  background: linear-gradient(135deg, #4e54c8, #8f94fb); /* 漸變背景色 */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 柔和陰影 */
-  border-radius: 10px; /* 圓角效果 */
-  color: white;
-  font-size: 14px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* 文字陰影增加層次感 */
+.app-footer p:first-of-type {
+  font-weight: bold; /* 第一行文字加粗 */
 }
 
-.footer-info span {
-  margin-right: 15px;
-  padding: 5px 10px;
-  background: rgba(255, 255, 255, 0.1); /* 半透明背景色讓文字更清晰 */
-  border-radius: 5px; /* 小圓角 */
+.app-footer p:last-of-type {
+  font-size: 12px; /* 設定最後一行文字大小 */
+  margin-top: 10px; /* 增加上邊距 */
 }
 
-.footer-info span:last-child {
-  margin-right: 0;
-}
-
-.footer-info a {
-  color: #ffdc61; /* 強調連結顏色 */
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s ease-in-out;
-}
-
-.footer-info a:hover {
-  color: #fff; /* 滑鼠懸停時變白 */
-}
-
-/* 響應式設計 */
-@media (max-width: 768px) {
-  .footer-info {
-    flex-direction: column; /* 小螢幕下改為垂直排列 */
-    text-align: center;
-  }
-
-  .footer-info span {
-    margin-bottom: 10px; /* 增加垂直間距 */
-  }
-}
 
 </style>
 
