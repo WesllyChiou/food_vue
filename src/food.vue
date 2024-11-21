@@ -60,9 +60,9 @@
               </select>
             </p>
           </div>
-          <button @click="updateBMR">計算 BMR</button>
           <p v-if="bmr">您的基礎代謝率 (BMR) 為：{{ Math.round(bmr) }} 大卡</p>
           <p v-if="tdee">您的每日總能量消耗 (TDEE) 為：{{ Math.round(tdee) }} 大卡</p>
+          <p v-if="exerciseDuration">建議運動時間：{{ exerciseDuration }} 分鐘</p>
         </div>
       </div>
     </div>
@@ -87,7 +87,15 @@ export default {
       activityLevel: 1.2,
       bmr: null,
       tdee: null,
+      exerciseDuration: null,
     };
+  },
+  watch: {
+    weight: "calculateBMR",
+    height: "calculateBMR",
+    age: "calculateBMR",
+    gender: "calculateBMR",
+    activityLevel: "calculateBMR",
   },
   methods: {
     async searchFood() {
@@ -113,14 +121,14 @@ export default {
     },
     closeModal() {
       this.showModal = false;
-      this.selectedFood = null;
+      this.resetInputs();
     },
     closeModalOnOutsideClick(event) {
       if (event.target === event.currentTarget) {
         this.closeModal();
       }
     },
-    updateBMR() {
+    calculateBMR() {
       if (this.weight && this.height && this.age) {
         const bmr =
           this.gender === "male"
@@ -128,11 +136,31 @@ export default {
             : 447.593 + 9.247 * this.weight + 3.098 * this.height - 4.33 * this.age;
         this.bmr = bmr;
         this.tdee = bmr * this.activityLevel;
+        this.calculateExerciseDuration();
       }
+    },
+    calculateExerciseDuration() {
+      if (this.selectedFood && this.tdee) {
+        const calories = this.selectedFood["修正熱量(kcal)"];
+        const MET = 8; // 假設運動 MET 值
+        this.exerciseDuration = Math.round((calories / (this.tdee / 24)) * 60 / MET);
+      }
+    },
+    resetInputs() {
+      this.weight = null;
+      this.height = null;
+      this.age = null;
+      this.gender = "female";
+      this.activityLevel = 1.2;
+      this.bmr = null;
+      this.tdee = null;
+      this.exerciseDuration = null;
+      this.selectedFood = null;
     },
   },
 };
 </script>
+
 
 <style scoped>
 .app-container {
@@ -175,13 +203,13 @@ button {
 button:hover {
   background-color: #45a049;
 }
-
+/*食物列表*/
 .food-list {
   display: flex;
   flex-direction: column;
   gap: 10px; /* 調整項目間距 */
 }
-
+/*食物項目*/ 
 .food-item {
   padding: 10px;
   border: 1px solid #ccc;
