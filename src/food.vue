@@ -420,35 +420,32 @@ p {
   }
 }
 
+/* 頁腳資訊區的樣式 */
+.footer-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #f4f4f4;
+  border-top: 1px solid #ccc;
+  font-size: 12px;
+}
+
+.footer-info span {
+  margin-right: 10px;
+}
+
 .app-footer {
-  background-color: #faf0e6; /* 深色背景 */
-  color: #fff; /* 白色文字 */
-  padding: 20px; /* 頁腳內邊距 */
-  text-align: center; /* 文字置中 */
-  font-size: 14px; /* 文字大小 */
-  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* 添加陰影效果 */
-}
-
-.app-footer p {
-  margin: 5px 0; /* 設定段落間距 */
-}
-
-.app-footer a {
-  color: #ff9800; /* 設定鏈接顏色 */
-  text-decoration: none; /* 去除鏈接下劃線 */
-}
-
-.app-footer a:hover {
-  text-decoration: underline; /* 鼠標懸停時顯示下劃線 */
-}
-
-.app-footer p:first-of-type {
-  font-weight: bold; /* 第一行文字加粗 */
-}
-
-.app-footer p:last-of-type {
-  font-size: 12px; /* 設定最後一行文字大小 */
-  margin-top: 10px; /* 增加上邊距 */
+  position: fixed;  /* 或使用 sticky */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  z-index: 1000;  /* 确保页脚在页面内容上方 */
 }
 
 
