@@ -323,7 +323,7 @@ button:hover {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  max-width: 500px;
+  max-width: 800px;
   width: 90%;
   text-align: left;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
