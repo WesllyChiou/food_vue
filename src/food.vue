@@ -93,16 +93,16 @@ export default {
       exerciseTypes: [
         "慢走", "快走", "爬樓梯", "跑步", "游泳", "腳踏車", "籃球", "瑜珈", "拳擊", "高爾夫", "羽毛球", "跳繩"
       ], // 新增的運動類型
-      weight: 60, // 預設體重為60公斤
-      height: null, // 用戶輸入的身高
-      age: null, // 用戶輸入的年齡
-      gender: null, // 用戶選擇的性別
+      weight: null, // 體重
+      height: null, // 身高
+      age: null, // 年齡
+      gender: "female", // 預設性別為女性
       activityLevel: 1.2, // 用戶選擇的活動水平
       bmr: null, // 計算出來的基礎代謝率 (BMR)
       tdee: null, // 計算出來的每日總能量消耗 (TDEE)
-      showBMRFields: false, // 是否顯示BMR欄位
+      showBMRFields: true, // 顯示BMR欄位
       exerciseCaloriesPerKg: {
-        "慢走": { rate: 3.5, caloriesAt60kg: 105 }, // 每60kg消耗105卡路里的慢走
+        "慢走": { rate: 3.5, caloriesAt60kg: 105 },
         "快走": { rate: 4.0, caloriesAt60kg: 120 },
         "爬樓梯": { rate: 6.0, caloriesAt60kg: 180 },
         "跑步": { rate: 7.0, caloriesAt60kg: 210 },
@@ -114,7 +114,7 @@ export default {
         "高爾夫": { rate: 2.0, caloriesAt60kg: 60 },
         "羽毛球": { rate: 4.0, caloriesAt60kg: 120 },
         "跳繩": { rate: 10.0, caloriesAt60kg: 300 }
-      }, // 每公斤體重的卡路里消耗及60kg對應的消耗值
+      },
       exerciseTimes: {}, // 存儲每種運動消耗熱量所需的時間
     };
   },
@@ -147,6 +147,7 @@ export default {
     closeModal() {
       this.showModal = false;
       this.selectedFood = null;
+      this.resetBMRInputs();
     },
 
     closeModalOnOutsideClick(event) {
@@ -155,40 +156,47 @@ export default {
       }
     },
 
+    resetBMRInputs() {
+      this.weight = null;
+      this.height = null;
+      this.age = null;
+      this.gender = "female";
+      this.activityLevel = 1.2;
+      this.bmr = null;
+      this.tdee = null;
+      this.exerciseTimes = {};
+    },
+
     toggleBMRFields() {
       this.showBMRFields = !this.showBMRFields;
     },
 
     updateBMR() {
-      const bmr = this.calculateBMR(this.weight, this.height, this.age, this.gender);
-      this.bmr = bmr;
-      this.tdee = bmr * this.activityLevel;
-      // 更新運動時間，基於新的體重計算
-      this.calculateExerciseTimes(this.selectedFood['修正熱量(kcal)']);
+      if (this.weight && this.height && this.age) {
+        const bmr = this.calculateBMR(this.weight, this.height, this.age, this.gender);
+        this.bmr = Math.round(bmr); // 四捨五入為整數
+        this.tdee = Math.round(bmr * this.activityLevel); // 四捨五入為整數
+      }
     },
 
     calculateBMR(weight, height, age, gender) {
-      // 使用 Harris-Benedict 方程式計算 BMR
-      if (gender === "male") {
-        return 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
-      } else if (gender === "female") {
-        return 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+      if (gender === 'female') {
+        return 655 + (9.6 * weight) + (1.8 * height) - (4.7 * age);
+      } else {
+        return 66 + (13.7 * weight) + (5 * height) - (6.8 * age);
       }
-      return 0;
     },
 
     calculateExerciseTimes(calories) {
-      const exerciseTimes = {};
-      // 根據選擇的體重計算每項運動所需的時間 (分鐘)
-      Object.entries(this.exerciseCaloriesPerKg).forEach(([exercise, { caloriesAt60kg }]) => {
-        const timeInMinutes = (calories / caloriesAt60kg) * 60;
-        exerciseTimes[exercise] = timeInMinutes.toFixed(1);
-      });
-      this.exerciseTimes = exerciseTimes;
-    },
+      for (const exercise of this.exerciseTypes) {
+        const caloriesPerKg = this.exerciseCaloriesPerKg[exercise];
+        this.exerciseTimes[exercise] = Math.ceil((calories / caloriesPerKg.caloriesAt60kg) * 60); // 計算每種運動的分鐘數
+      }
+    }
   },
 };
 </script>
+
 
 <style scoped>
 .app-container {
