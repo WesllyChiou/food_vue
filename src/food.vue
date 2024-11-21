@@ -77,10 +77,10 @@
     </div>
 
     <footer class="app-footer">
-      <p>資料來源：<a href="https://food-server-ycm2.onrender.com/api" target="_blank">食品資料 API</a></p>
-      <p>聯絡信箱：<a href="mailto:example@example.com">example@example.com</a></p>
+      <p>衛生福利部食品藥物管理署、國民健康署、Google</p>
+      <p>聯絡信箱：<a href="mailto:demotest3.14.1@gmail.com">聯絡信箱</a></p>
       <p>目前有 {{ viewCount }} 人正在瀏覽</p>
-      <p>&copy; 2024 我的網站</p>
+      <p>&copy; 2024 FOODHOW</p>
     </footer>
   </div>
 </template>
@@ -96,6 +96,7 @@ export default {
       isLoading: false, // 顯示進度條
       showModal: false, // 是否顯示彈窗
       selectedFood: null, // 被選中的食物資料
+      viewCount: 0, // 瀏覽人數
       exerciseTypes: [
         "慢走(4公里/時)", "快走、健走(6.0公里/時)", "下樓梯","上樓梯", "慢跑(8公里/時)","快跑(12公里/時)","快跑(16公里/時)", "游泳(慢)","游泳(較快)","騎腳踏車(一般速度，10公里/時)"
         ,"騎腳踏車(快，20公里/時)","騎腳踏車(很快，30公里/時)", "籃球(半場)","籃球(全場)", "瑜珈", "拳擊", "高爾夫", "羽毛球", "跳繩(慢)","跳繩(快),","拖地"
