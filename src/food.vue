@@ -354,7 +354,7 @@ button:hover {
 }
 
 .exercise-item {
-  flex: 0 0 calc(30% - 10px); /* 每個項目占容器寬度的20%，考慮間距 */
+  flex: 0 0 calc(33.33% - 10px); /* 每個項目占容器寬度的20%，考慮間距 */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -366,6 +366,7 @@ button:hover {
   overflow: hidden;    /* 隱藏超出範圍的部分 */
   text-overflow: ellipsis; /* 用省略號表示被隱藏的部分 */
 }
+
 
 
 input[type="number"],
@@ -466,6 +467,19 @@ p {
   color: #333;    /* 顏色 (可選) */
 }
 
+/* 手機或小螢幕設備：每列顯示兩個項目 */
+@media (max-width: 768px) {
+  .exercise-item {
+    flex: 0 0 calc(50% - 10px); /* 每個項目占容器寬度的 50%，這樣每列顯示 2 個項目 */
+  }
+}
+
+/* 頁面寬度大於768px，顯示每列 3 個項目 */
+@media (min-width: 769px) {
+  .exercise-item {
+    flex: 0 0 calc(33.33% - 10px); /* 每個項目占容器寬度的 33.33%，這樣每列顯示 3 個項目 */
+  }
+}
 
 
 </style>
