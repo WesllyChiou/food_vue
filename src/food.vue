@@ -19,10 +19,8 @@
       >
         <h3>{{ food.樣品名稱 }}</h3>
         <p>俗名: {{ food.俗名 }}</p>
-        <p>熱量: {{ food['修正熱量(kcal)'] }} 大卡</p>
-        <p>蛋白: {{ food['粗蛋白(g)'] }}</p>
-        <p>脂肪: {{ food['粗脂肪(g)'] }}</p>
-        <p>碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
+        <p>熱量: {{ food['修正熱量(kcal)'] }},蛋白: {{ food['粗蛋白(g)'] }},脂肪: {{ food['粗脂肪(g)'] }},碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
+        <h3>資料來源:</h3>
       </div>
     </div>
 
@@ -77,8 +75,8 @@
     </div>
 
     <footer class="app-footer">
-      <p>衛生福利部食品藥物管理署、國民健康署、Google</p>
-      <p>聯絡信箱：<a href="mailto:demotest3.14.1@gmail.com">聯絡信箱</a></p>
+      <p>參考資料：國家衛生福利部食品藥物管理署、國民健康署、Google</p>
+      <p><a href="mailto:demotest3.14.1@gmail.com">聯絡信箱</a></p>
       <p>目前有 {{ viewCount }} 人正在瀏覽</p>
       <p>&copy; 2024 FOODHOW</p>
     </footer>
