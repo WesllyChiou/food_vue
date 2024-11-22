@@ -18,8 +18,8 @@
         @click="openExerciseModal(food)"
       >
         <h3>{{ food.樣品名稱 }}</h3>
-        <p>俗名: {{ food.俗名 }}</p>
-        <p>熱量: {{ food['修正熱量(kcal)'] }},蛋白: {{ food['粗蛋白(g)'] }},脂肪: {{ food['粗脂肪(g)'] }},碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
+        <p class="food-subtitle">俗名: {{ food.俗名 }}</p>
+        <p class="food-subtitle">熱量: {{ food['修正熱量(kcal)'] }},蛋白: {{ food['粗蛋白(g)'] }},脂肪: {{ food['粗脂肪(g)'] }},碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
         <h6>資料來源:{{ food['資料來源'] }}</h6>
       </div>
     </div>
@@ -458,6 +458,12 @@ p {
 
 .app-footer p:last-child {
   margin-right: 0; /* 最後一個元素右邊距為0 */
+}
+
+/**項目內容文字設定*/
+.food-subtitle {
+  font-size: 16px; /* 字體大小 */
+  color: #333;    /* 顏色 (可選) */
 }
 
 
