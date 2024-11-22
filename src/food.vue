@@ -20,7 +20,7 @@
         <h3>{{ food.樣品名稱 }}</h3>
         <p class="food-subtitle">俗名: {{ food.俗名 }}</p>
         <p class="food-subtitle">熱量: {{ food['修正熱量(kcal)'] }},蛋白: {{ food['粗蛋白(g)'] }},脂肪: {{ food['粗脂肪(g)'] }},碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
-        <h6>資料來源:{{ food['資料來源'] }}</h6>
+        <p class="food-subtitle">資料來源:{{ food['資料來源'] }}</p>
       </div>
     </div>
 
@@ -329,7 +329,7 @@ button:hover {
   padding: 20px;
   border-radius: 8px;
   max-width: 1000px;
-  width: 90%;
+  width: 100%;
   text-align: left;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   max-height: 80vh;  /* 限制模態框的最大高度 */
@@ -354,7 +354,7 @@ button:hover {
 }
 
 .exercise-item {
-  flex: 0 0 calc(20% - 10px); /* 每個項目占容器寬度的20%，考慮間距 */
+  flex: 0 0 calc(30% - 10px); /* 每個項目占容器寬度的20%，考慮間距 */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -462,7 +462,7 @@ p {
 
 /**項目內容文字設定*/
 .food-subtitle {
-  font-size: 16px; /* 字體大小 */
+  font-size: 20px; /* 字體大小 */
   color: #333;    /* 顏色 (可選) */
 }
 
