@@ -197,7 +197,7 @@ export default {
         const bmr = this.calculateBMR(this.weight, this.height, this.age, this.gender);
         this.bmr = Math.round(bmr); // 四捨五入為整數
         this.tdee = Math.round(bmr * this.activityLevel); // 四捨五入為整數
-        if (this.selectedFood['修正熱量(kcal)']='') {
+        if (!this.selectedFood['修正熱量(kcal)']) {
         this.calculateExerciseTimes(this.selectedFood['熱量(kcal)']);
         } else {
           this.calculateExerciseTimes(this.selectedFood['修正熱量(kcal)']);
