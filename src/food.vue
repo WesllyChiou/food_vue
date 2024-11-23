@@ -197,7 +197,14 @@ export default {
         const bmr = this.calculateBMR(this.weight, this.height, this.age, this.gender);
         this.bmr = Math.round(bmr); // 四捨五入為整數
         this.tdee = Math.round(bmr * this.activityLevel); // 四捨五入為整數
-        this.calculateExerciseTimes(this.selectedFood['修正熱量(kcal)']);
+         // 再次計算運動時間
+    if (this.selectedFood) {
+      if (this.selectedFood['修正熱量(kcal)']='') {
+        this.calculateExerciseTimes(this.selectedFood['熱量(kcal)']);
+        } else {
+          this.calculateExerciseTimes(this.selectedFood['修正熱量(kcal)']);
+          }
+    }
       }
     },
 
@@ -210,6 +217,11 @@ export default {
     },
 
     calculateExerciseTimes(calories) {
+      if (!this.weight || !calories) {
+    this.exerciseTimes = {};
+    return;
+  }
+  
   const times = {};
   
   // 遍歷所有運動
