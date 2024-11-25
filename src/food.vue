@@ -3,6 +3,12 @@
     <h1>查詢</h1>
     <div class="search-container">
       <input v-model="searchQuery" placeholder="輸入食物名稱" />
+        <!-- 在此處加入 @keydown.enter -->
+        <input
+        v-model="searchQuery"
+        placeholder="輸入食物名稱"
+        @keydown.enter="searchFood"
+      />
       <button @click="searchFood">搜尋</button>
     </div>
 
@@ -20,7 +26,7 @@
         <h3>{{ food.樣品名稱 }}</h3>
         <p class="food-subtitle">俗名: {{ food.俗名 }}</p>
         <p class="food-subtitle">熱量: {{ food['熱量(kcal)'] }},修正熱量: {{ food['修正熱量(kcal)'] }},蛋白: {{ food['粗蛋白(g)'] }},脂肪: {{ food['粗脂肪(g)'] }},碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
-        <p class="food-subtitle">資料來源:{{ food['資料來源'] }}</p>
+        <h6 class="food-subtitle">資料來源:{{ food['資料來源'] }}</h6>
       </div>
     </div>
 
