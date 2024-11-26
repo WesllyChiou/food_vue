@@ -26,7 +26,7 @@
         <h3>{{ food.樣品名稱 }}</h3>
         <p>俗名: {{ food.俗名 }}</p>
         <p class="food-subtitle">熱量: {{ food['熱量(kcal)'] }},修正熱量: {{ food['修正熱量(kcal)'] }},蛋白: {{ food['粗蛋白(g)'] }},脂肪: {{ food['粗脂肪(g)'] }},碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
-        <h6>資料來源:{{ food['資料來源'] }}</h6>
+        <h5>資料來源:{{ food['資料來源'] }}</h5>
       </div>
     </div>
 
@@ -71,7 +71,7 @@
         <button @click="toggleBMRFields" v-if="!showBMRFields">計算BMR</button>
 
         <!-- 水平排列的運動建議清單 -->
-        <p>您可以進行以下運動來消耗{{ selectedFood.樣品名稱 }}的熱量：</p>
+        <p>您可以進行以下運動來消耗<h6>{{ selectedFood.樣品名稱 }}</h6>的熱量：</p>
         <div class="exercise-container">
           <span v-for="(time, exercise) in exerciseTimes" :key="exercise" class="exercise-item">
             {{ exercise }}：{{ time }} 分鐘
