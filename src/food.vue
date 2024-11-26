@@ -2,7 +2,7 @@
   <div class="app-container">
     <h1>查詢</h1>
     <div class="search-container">
-      <input v-model="searchQuery" placeholder="輸入食物名稱" />
+      
         <!-- 在此處加入 @keydown.enter -->
         <input
         v-model="searchQuery"
