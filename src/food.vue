@@ -25,8 +25,8 @@
       >
         <h3>{{ food.樣品名稱 }}</h3>
         <p>俗名: {{ food.俗名 }}</p>
-        <p class="food-subtitle">熱量: {{ food['熱量(kcal)'] }},修正熱量: {{ food['修正熱量(kcal)'] }},蛋白: {{ food['粗蛋白(g)'] }},脂肪: {{ food['粗脂肪(g)'] }},碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
-        <h5>資料來源:{{ food['資料來源'] }}</h5>
+        <p>熱量: {{ food['熱量(kcal)'] }},修正熱量: {{ food['修正熱量(kcal)'] }},蛋白: {{ food['粗蛋白(g)'] }},脂肪: {{ food['粗脂肪(g)'] }},碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
+        <h4>資料來源:{{ food['資料來源'] }}</h4>
       </div>
     </div>
 
@@ -39,11 +39,11 @@
       <div class="modal-content" @click.stop>
         <span class="close-btn" @click="closeModal">&times;</span>
         <h3>{{ selectedFood.樣品名稱 }} 的運動建議</h3>
-        <p>熱量：{{ selectedFood['修正熱量(kcal)'] }} 大卡</p>
+        <p >熱量：{{ selectedFood['修正熱量(kcal)'] }} 大卡</p>
 
         <!-- 顯示計算BMR和TDEE的區域 -->
         <div v-if="showBMRFields">
-          <div>
+          <div class="food-subtitle">
             <p>請輸入體重 (kg)：<input v-model="weight" type="number" placeholder="輸入體重" @input="updateBMR" /></p>
             <p>請輸入身高 (cm)：<input v-model="height" type="number" placeholder="輸入身高" @input="updateBMR" /></p>
             <p>請輸入年齡 (歲)：<input v-model="age" type="number" placeholder="輸入年齡" @input="updateBMR" /></p>
@@ -64,8 +64,8 @@
             </p>
           </div>
 
-          <p  v-if="bmr">您的基礎代謝率 (BMR) 為：{{ bmr }} 大卡</p>
-          <p v-if="tdee">您的每日總能量消耗 (TDEE) 為：{{ tdee }} 大卡</p>
+          <p class="food-subtitle" v-if="bmr">您的基礎代謝率 (BMR) 為：{{ bmr }} 大卡</p>
+          <p  class="food-subtitle" v-if="tdee">您的每日總能量消耗 (TDEE) 為：{{ tdee }} 大卡</p>
         </div>
 
         <button @click="toggleBMRFields" v-if="!showBMRFields">計算BMR</button>
@@ -332,7 +332,7 @@ button:hover {
 .food-item p {
   margin: 5px 0;
   color: #555;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .modal {
@@ -384,7 +384,7 @@ button:hover {
   border-radius: 4px;
   background-color: #f1f1f1;
   text-align: center;
-  font-size: 14px;
+  font-size: 16px;
 
   white-space: nowrap; /* 禁止換行 */
   overflow: hidden;    /* 隱藏超出範圍的部分 */
@@ -487,7 +487,7 @@ p {
 
 /**項目內容文字設定*/
 .food-subtitle {
-  font-size: 26px; /* 字體大小 */
+  font-size: 18px; /* 字體大小 */
   color: #333;    /* 顏色 (可選) */
 }
 
