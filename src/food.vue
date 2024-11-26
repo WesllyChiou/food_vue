@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <h1>食物熱量&運動消耗查詢</h1>
+    <h1>食物熱量&運動消耗時間查詢</h1>
     <div class="search-container">
       
         <!-- 在此處加入 @keydown.enter -->
@@ -326,13 +326,13 @@ button:hover {
 
 .food-item h3 {
   margin: 0;
-  font-size: 22px;
+  font-size: 20px;
 }
 
 .food-item p {
   margin: 5px 0;
   color: #555;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .modal {
