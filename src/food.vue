@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <h1>查詢</h1>
+    <h1>食物熱量&運動消耗查詢</h1>
     <div class="search-container">
       
         <!-- 在此處加入 @keydown.enter -->
@@ -64,8 +64,8 @@
             </p>
           </div>
 
-          <p v-if="bmr">您的基礎代謝率 (BMR) 為：{{ bmr }} 大卡</p>
-          <p v-if="tdee">您的每日總能量消耗 (TDEE) 為：{{ tdee }} 大卡</p>
+          <p  v-if="bmr" class="food-subtitle">您的基礎代謝率 (BMR) 為：{{ bmr }} 大卡</p>
+          <p v-if="tdee" class="food-subtitle">您的每日總能量消耗 (TDEE) 為：{{ tdee }} 大卡</p>
         </div>
 
         <button @click="toggleBMRFields" v-if="!showBMRFields">計算BMR</button>
@@ -487,7 +487,7 @@ p {
 
 /**項目內容文字設定*/
 .food-subtitle {
-  font-size: 24px; /* 字體大小 */
+  font-size: 26px; /* 字體大小 */
   color: #333;    /* 顏色 (可選) */
 }
 
