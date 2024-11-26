@@ -64,14 +64,14 @@
             </p>
           </div>
 
-          <p  v-if="bmr" class="food-subtitle">您的基礎代謝率 (BMR) 為：{{ bmr }} 大卡</p>
-          <p v-if="tdee" class="food-subtitle">您的每日總能量消耗 (TDEE) 為：{{ tdee }} 大卡</p>
+          <p  v-if="bmr">您的基礎代謝率 (BMR) 為：{{ bmr }} 大卡</p>
+          <p v-if="tdee">您的每日總能量消耗 (TDEE) 為：{{ tdee }} 大卡</p>
         </div>
 
         <button @click="toggleBMRFields" v-if="!showBMRFields">計算BMR</button>
 
         <!-- 水平排列的運動建議清單 -->
-        <p>您可以進行以下運動來消耗<h6>{{ selectedFood.樣品名稱 }}</h6>的熱量：</p>
+        <h6>您可以進行以下運動來消耗{{ selectedFood.樣品名稱 }}的熱量：</h6>
         <div class="exercise-container">
           <span v-for="(time, exercise) in exerciseTimes" :key="exercise" class="exercise-item">
             {{ exercise }}：{{ time }} 分鐘
@@ -326,7 +326,7 @@ button:hover {
 
 .food-item h3 {
   margin: 0;
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .food-item p {
