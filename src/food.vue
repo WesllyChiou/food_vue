@@ -182,13 +182,14 @@ export default {
     openExerciseModal(food) {
       this.selectedFood = food;
       this.calculateExerciseTimes(food['修正熱量(kcal)']);
+      this.updateBMR(); // 打開視窗時即計算 BMR 和 TDEE
       this.showModal = true;
     },
 
     closeModal() {
       this.showModal = false;
       this.selectedFood = null;
-      this.resetBMRInputs();
+      //this.resetBMRInputs();
     },
 
     closeModalOnOutsideClick(event) {
@@ -213,16 +214,17 @@ export default {
     },
 
     updateBMR() {
-      if (this.weight && this.height && this.age) {
-        const bmr = this.calculateBMR(this.weight, this.height, this.age, this.gender);
-        this.bmr = Math.round(bmr); // 四捨五入為整數
-        this.tdee = Math.round(bmr * this.activityLevel); // 四捨五入為整數
+      const { weight, height, age, gender, activityLevel } = this.userInputs;
+      if (weight && height && age) {
+        this.bmr = Math.round(this.calculateBMR(weight, height, age, gender));
+        this.tdee = Math.round(this.bmr * activityLevel);
         if (!this.selectedFood['修正熱量(kcal)']) {
         this.calculateExerciseTimes(this.selectedFood['熱量(kcal)']);
         } else {
           this.calculateExerciseTimes(this.selectedFood['修正熱量(kcal)']);
           }
-       }
+      }
+
     },
 
     calculateBMR(weight, height, age, gender) {
