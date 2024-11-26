@@ -182,7 +182,9 @@ export default {
     openExerciseModal(food) {
       this.selectedFood = food;
       this.calculateExerciseTimes(food['修正熱量(kcal)']);
-      this.updateBMR(); // 打開視窗時即計算 BMR 和 TDEE
+      if (!this.bmr || !this.tdee) {// 打開視窗時即計算 BMR 和 TDEE
+      this.updateBMR();
+     }
       this.showModal = true;
     },
 
@@ -214,18 +216,19 @@ export default {
     },
 
     updateBMR() {
-      const { weight, height, age, gender, activityLevel } = this.userInputs;
-      if (weight && height && age) {
-        this.bmr = Math.round(this.calculateBMR(weight, height, age, gender));
-        this.tdee = Math.round(this.bmr * activityLevel);
-        if (!this.selectedFood['修正熱量(kcal)']) {
-        this.calculateExerciseTimes(this.selectedFood['熱量(kcal)']);
-        } else {
-          this.calculateExerciseTimes(this.selectedFood['修正熱量(kcal)']);
-          }
-      }
+  const { weight, height, age, gender, activityLevel } = this;
 
-    },
+  if (weight && height && age) {
+    this.bmr = Math.round(this.calculateBMR(weight, height, age, gender));
+    this.tdee = Math.round(this.bmr * activityLevel);
+
+    const calories = this.selectedFood?.['修正熱量(kcal)'] || this.selectedFood?.['熱量(kcal)'];
+    if (calories) {
+      this.calculateExerciseTimes(calories);
+    }
+  }
+},
+
 
     calculateBMR(weight, height, age, gender) {
       if (gender === 'female') {
