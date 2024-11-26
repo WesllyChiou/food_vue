@@ -71,7 +71,7 @@
         <button @click="toggleBMRFields" v-if="!showBMRFields">計算BMR</button>
 
         <!-- 水平排列的運動建議清單 -->
-        <p>您需要進行以下運動來消耗這些熱量：</p>
+        <p>您可以進行以下運動來消耗{{ selectedFood.樣品名稱 }}的熱量：</p>
         <div class="exercise-container">
           <span v-for="(time, exercise) in exerciseTimes" :key="exercise" class="exercise-item">
             {{ exercise }}：{{ time }} 分鐘
