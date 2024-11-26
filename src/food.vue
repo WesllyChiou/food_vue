@@ -43,17 +43,17 @@
 
         <!-- 顯示計算BMR和TDEE的區域 -->
         <div v-if="showBMRFields">
-          <div class="food-subtitle">
-            <p>請輸入體重 (kg)：<input v-model="weight" type="number" placeholder="輸入體重" @input="updateBMR" /></p>
-            <p>請輸入身高 (cm)：<input v-model="height" type="number" placeholder="輸入身高" @input="updateBMR" /></p>
-            <p>請輸入年齡 (歲)：<input v-model="age" type="number" placeholder="輸入年齡" @input="updateBMR" /></p>
-            <p>選擇性別： 
+          <div >
+            <p class="food-subtitle">請輸入體重 (kg)：<input v-model="weight" type="number" placeholder="輸入體重" @input="updateBMR" /></p>
+            <p class="food-subtitle">請輸入身高 (cm)：<input v-model="height" type="number" placeholder="輸入身高" @input="updateBMR" /></p>
+            <p class="food-subtitle">請輸入年齡 (歲)：<input v-model="age" type="number" placeholder="輸入年齡" @input="updateBMR" /></p>
+            <p class="food-subtitle">選擇性別： 
               <select v-model="gender" @change="updateBMR" class="styled-select">
                 <option value="male">男</option>
                 <option value="female">女</option>
               </select>
             </p>
-            <p>選擇活動水平：
+            <p class="food-subtitle">選擇活動水平：
               <select v-model="activityLevel" @change="updateBMR" class="styled-select">
                 <option value="1.2">久坐少動</option>
                 <option value="1.375">輕度活動</option>
@@ -71,7 +71,7 @@
         <button @click="toggleBMRFields" v-if="!showBMRFields">計算BMR</button>
 
         <!-- 水平排列的運動建議清單 -->
-        <h6>您可以進行以下運動來消耗{{ selectedFood.樣品名稱 }}的熱量：</h6>
+        <p class="food-subtitle">您可以進行以下運動來消耗{{ selectedFood.樣品名稱 }}的熱量：</p>
         <div class="exercise-container">
           <span v-for="(time, exercise) in exerciseTimes" :key="exercise" class="exercise-item">
             {{ exercise }}：{{ time }} 分鐘
