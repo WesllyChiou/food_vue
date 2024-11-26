@@ -181,7 +181,10 @@ export default {
 
     openExerciseModal(food) {
       this.selectedFood = food;
-      this.calculateExerciseTimes(food['修正熱量(kcal)']);
+      const calories = this.selectedFood?.['修正熱量(kcal)'] || this.selectedFood?.['熱量(kcal)'];
+    if (calories) {
+      this.calculateExerciseTimes(calories);
+    }
       if (!this.bmr || !this.tdee) {// 打開視窗時即計算 BMR 和 TDEE
       this.updateBMR();
      }
