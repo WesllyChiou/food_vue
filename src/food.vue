@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <h1>食物熱量/熱量運動消耗時間查詢</h1>
+    <h1>食物熱量及熱量在不同運動下的消耗時間查詢</h1>
        <div class="search-container">
       
         <!-- 在此處加入 @keydown.enter -->
@@ -39,8 +39,8 @@
     <div v-if="showModal" class="modal" @click="closeModalOnOutsideClick">
       <div class="modal-content" @click.stop>
         <span class="close-btn" @click="closeModal">&times;</span>
-        <h3>{{ selectedFood.樣品名稱 }} 的運動建議</h3>
-        <p >熱量：{{ selectedFood['修正熱量(kcal)'] }} 大卡</p>
+        <h2>{{ selectedFood.樣品名稱 }} 的運動建議</h2>
+        <p class="food-subtitle">熱量：{{ selectedFood['修正熱量(kcal)'] || selectedFood['熱量(kcal)'] }} 大卡</p>
 
         <!-- 顯示計算BMR和TDEE的區域 -->
         <div v-if="showBMRFields">
@@ -415,8 +415,8 @@ button:hover {
 
 .close-btn {
   position: absolute;
-  top: 100px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
   font-size: 30px;
   cursor: pointer;
   color: #333;
