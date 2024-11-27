@@ -406,9 +406,9 @@ button:hover {
 
 .close-btn {
   position: absolute;
-  top: 50px;
-  right: 10px;
-  font-size: 24px;
+  top: 100px;
+  right: 20px;
+  font-size: 30px;
   cursor: pointer;
   color: #333;
 }
