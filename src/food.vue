@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
-    <h1>食物熱量&運動消耗時間查詢</h1>
+    <h1>食物熱量查詢</h1>
+    <h1>熱量消耗時間查詢</h1>
     <div class="search-container">
       
         <!-- 在此處加入 @keydown.enter -->
@@ -82,6 +83,27 @@
 
     <footer class="app-footer">
       <p><a href="mailto:demotest3.14.1@gmail.com">聯絡信箱</a></p>
+      <p>
+     
+    <a
+      :href="`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl)}`"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      分享到 LINE
+    </a>
+    <a
+      :href="`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      分享到 Facebook
+    </a>
+    <button @click="copyToClipboard">
+      分享到 Instagram
+    </button>
+  
+</p>
       <p>&copy; 2024 FOODHOW</p>
     </footer>
   </div>
@@ -93,6 +115,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      shareUrl: 'https://food-vue.onrender.com', // 替换为实际的分享链接
       searchQuery: "", // 用戶輸入的查詢關鍵字
       foods: [], // 顯示查詢結果
       isLoading: false, // 顯示進度條
@@ -241,6 +264,11 @@ export default {
       }
     },
 
+    copyToClipboard() {
+      navigator.clipboard.writeText(this.shareUrl).then(() => {
+        alert('連結已複製！請貼到 Instagram 分享。');
+      });
+    },
     calculateExerciseTimes(calories) {
   const times = {};
   
@@ -265,6 +293,7 @@ export default {
   this.exerciseTimes = times;
 }
 
+
   }
 };
 </script>
@@ -280,7 +309,7 @@ export default {
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 36px;
   margin-bottom: 20px;
 }
 
@@ -512,6 +541,8 @@ p {
     flex: 0 0 calc(33.33% - 10px); /* 每個項目占容器寬度的 33.33%，這樣每列顯示 3 個項目 */
   }
 }
+
+
 
 
 </style>

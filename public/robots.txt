@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://food-vue.onrender.com/sitemap.xml
