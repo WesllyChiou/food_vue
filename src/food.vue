@@ -102,6 +102,16 @@
       分享到FB
     </a>
 
+     <!-- 分享到 Thread -->
+     <a
+      :href="`https://www.thread.com/share?url=${encodeURIComponent(shareUrl)}`"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="social-link"
+    >
+      分享到Thread
+    </a>
+    
     <a
         href="#"
         @click.prevent="copyToClipboard"
