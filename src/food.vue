@@ -82,12 +82,13 @@
 
     <footer class="app-footer">
       <p><a href="mailto:demotest3.14.1@gmail.com">聯絡信箱</a></p>
-      <p>
+      <p class="social-links">
      
     <a
       :href="`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl)}`"
       target="_blank"
       rel="noopener noreferrer"
+      class="social-link"
     >
       分享到LINE
     </a>
@@ -95,13 +96,18 @@
       :href="`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`"
       target="_blank"
       rel="noopener noreferrer"
+      class="social-link"
     >
       分享到FB
     </a>
 
-    <button @click="copyToClipboard">
-      分享到IG
-    </button>
+    <a
+        href="#"
+        @click.prevent="copyToClipboard"
+        class="social-link"
+      >
+        分享到IG
+      </a>
   
 </p>
       <p>&copy; 2024 FOODHOW</p>
@@ -519,6 +525,26 @@ p {
 
 .app-footer a:hover {
   color: #00bcd4; /* 鼠標懸停時改變字體顏色 */
+}
+
+/* 社交連結統一樣式 */
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* 連結之間的間距 */
+}
+
+.social-link {
+  color: #fff; /* 白色文字 */
+  text-decoration: none; /* 移除底線 */
+  font-size: 14px; /* 字體大小 */
+  padding: 5px 10px; /* 內邊距讓點擊區域更大 */
+  border-radius: 4px; /* 圓角 */
+  transition: background-color 0.3s ease; /* 滑鼠懸停效果 */
+}
+
+.social-link:hover {
+  background-color: #444; /* 滑鼠懸停背景色 */
 }
 
 
