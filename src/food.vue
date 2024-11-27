@@ -25,12 +25,13 @@
       >
         <h3>{{ food.樣品名稱 }}</h3>
         <p>俗名: {{ food.俗名 }}</p>
-        <p>熱量: {{ food['熱量(kcal)'] }},修正熱量: {{ food['修正熱量(kcal)'] }},蛋白: {{ food['粗蛋白(g)'] }},脂肪: {{ food['粗脂肪(g)'] }},碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
+        <p>熱量: {{ food['熱量(kcal)'] }}，修正熱量: {{ food['修正熱量(kcal)'] }}，蛋白: {{ food['粗蛋白(g)'] }}，脂肪: {{ food['粗脂肪(g)'] }}，碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
         <h4>資料來源:{{ food['資料來源'] }}</h4>
       </div>
     </div>
 
-    <div v-else>
+   <!-- 查無資料提示 -->
+   <div v-if="!isLoading && foods.length === 0 && searchQuery.trim()">
       <p>查無資料</p>
     </div>
 
@@ -483,7 +484,36 @@ p {
   .modal-content {
     width: 95%;
   }
+
+  /* 運動項目的響應式調整 */
+  .exercise-container {
+    display: flex;
+    flex-wrap: wrap; /* 啟用自動換行 */
+    justify-content: center; /* 水平居中 */
+    gap: 10px; /* 每個運動項目的間距 */
+    margin-top: 20px;
+  }
+
+  .exercise-item {
+    flex: 0 0 calc(50% - 10px); /* 在中等螢幕上每行顯示兩個項目 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+    text-align: center;
+    font-size: 16px;
+    white-space: nowrap; /* 禁止換行 */
+    overflow: hidden;    /* 隱藏超出範圍的部分 */
+    text-overflow: ellipsis; /* 用省略號表示被隱藏的部分 */
+  }
 }
+
+@media (max-width: 480px) {
+  .exercise-item {
+    flex: 0 0 calc(100% - 10px); /* 在手機上每行顯示一個項目，且增加寬度 */
+  }
+}
+
 
 /* 頁腳資訊區的樣式 */
 .footer-info {
