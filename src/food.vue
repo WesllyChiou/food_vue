@@ -1,8 +1,7 @@
 <template>
   <div class="app-container">
-    <h1>食物熱量查詢</h1>
-    <h1>熱量消耗時間查詢</h1>
-    <div class="search-container">
+    <h1>食物熱量/熱量運動消耗時間查詢</h1>
+       <div class="search-container">
       
         <!-- 在此處加入 @keydown.enter -->
         <input
@@ -90,24 +89,19 @@
       target="_blank"
       rel="noopener noreferrer"
     >
-      分享到 LINE
+      分享到LINE
     </a>
     <a
       :href="`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`"
       target="_blank"
       rel="noopener noreferrer"
     >
-      分享到 Facebook
+      分享到FB
     </a>
 
-    <a
-        :href="`https://instagram.com/share?url=${encodeURIComponent(shareUrl)}`"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="social-link"
-      >
-        分享到 Instagram
-      </a>
+    <button @click="copyToClipboard">
+      分享到IG
+    </button>
   
 </p>
       <p>&copy; 2024 FOODHOW</p>
@@ -315,7 +309,7 @@ export default {
 }
 
 h1 {
-  font-size: 36px;
+  font-size: 32px;
   margin-bottom: 20px;
 }
 
@@ -548,8 +542,4 @@ p {
   }
 }
 
-
-
-
 </style>
-
