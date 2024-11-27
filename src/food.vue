@@ -220,32 +220,37 @@ export default {
     },
 
     updateSchemaData() {
+    // 確保有搜尋結果
     if (this.foods && this.foods.length > 0) {
-      const food = this.foods[0];  // 假設你顯示的是第一個搜尋結果，根據需求調整
+      // 清空之前的 JSON-LD，以防重複
+      const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
+      existingScripts.forEach(script => script.remove());
 
-      // 構建符合 JSON-LD 格式的結構化數據
-      const schemaData = {
-        "@context": "https://schema.org",
-        "@type": "Food",
-        "name": food.樣品名稱,
-        "alternateName": food.俗名,
-        "calories": food['熱量(kcal)'],
-        "nutrition": {
-          "@type": "NutritionInformation",
+      // 遍歷每一個食物資料
+      this.foods.forEach(food => {
+        const schemaData = {
+          "@context": "https://schema.org",
+          "@type": "Food",
+          "name": food.樣品名稱,
+          "alternateName": food.俗名,
           "calories": food['熱量(kcal)'],
-          "modifiedCalories": food['修正熱量(kcal)'],
-          "proteinContent": food['粗蛋白(g)'],
-          "fatContent": food['粗脂肪(g)'],
-          "carbohydrateContent": food['總碳水化合物(g)']
-        },
-        "source": food['資料來源']
-      };
+          "nutrition": {
+            "@type": "NutritionInformation",
+            "calories": food['熱量(kcal)'],
+            "modifiedCalories": food['修正熱量(kcal)'],
+            "proteinContent": food['粗蛋白(g)'],
+            "fatContent": food['粗脂肪(g)'],
+            "carbohydrateContent": food['總碳水化合物(g)']
+          },
+          "source": food['資料來源']
+        };
 
-      // 創建 <script> 標籤並插入到 <head> 中
-      const script = document.createElement('script');
-      script.type = 'application/ld+json';
-      script.innerHTML = JSON.stringify(schemaData);
-      document.head.appendChild(script);
+        // 創建 <script> 標籤並插入到 <head> 中
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.innerHTML = JSON.stringify(schemaData);
+        document.head.appendChild(script);
+      });
     }
   },
 
