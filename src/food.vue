@@ -99,9 +99,15 @@
     >
       分享到 Facebook
     </a>
-    <button @click="copyToClipboard">
-      分享到 Instagram
-    </button>
+
+    <a
+        :href="`https://instagram.com/share?url=${encodeURIComponent(shareUrl)}`"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="social-link"
+      >
+        分享到 Instagram
+      </a>
   
 </p>
       <p>&copy; 2024 FOODHOW</p>
@@ -497,30 +503,30 @@ p {
 
 /* 設定頁腳容器 */
 .app-footer {
-  background-color: #000; /* 設定黑色背景 */
+  background-color: #000; /* 黑色背景 */
   color: #fff; /* 白色字體 */
-  padding: 10px 0; /* 降低內邊距 */
-  display: flex; /* 使用 flexbox 讓內容水平排列 */
-  justify-content: space-between; /* 讓內容兩端對齊 */
-  align-items: center; /* 垂直居中對齊 */
-  flex-wrap: nowrap; /* 禁止換行 */
+  padding: 10px 20px; /* 增加內邊距，讓內容不緊貼邊緣 */
+  display: flex; /* 使用 flexbox */
+  justify-content: center; /* 讓內容居中對齊 */
+  align-items: center; /* 垂直居中 */
+  flex-wrap: wrap; /* 容許內容換行 */
+  width: 100%; /* 確保背景寬度覆蓋整個頁面 */
+  box-sizing: border-box; /* 包含內邊距計算寬度 */
 }
 
-/* 設定頁腳內部元素 */
-.app-footer p {
-  margin: 0 15px; /* 設定左右邊距 */
-  white-space: nowrap; /* 防止文字換行 */
-}
-
-/* 設定頁腳中的聯絡信箱 */
+/* 子項目通用樣式 */
+.app-footer p,
 .app-footer a {
-  color: #fff; /* 連結顏色為白色 */
-  text-decoration: none; /* 去掉下劃線 */
+  margin: 5px 10px; /* 為每個元素增加間距 */
+  text-align: center; /* 文字居中 */
+  text-decoration: none; /* 移除連結的下劃線 */
+  color: #fff; /* 白色字體 */
 }
 
-.app-footer p:last-child {
-  margin-right: 0; /* 最後一個元素右邊距為0 */
+.app-footer a:hover {
+  color: #00bcd4; /* 鼠標懸停時改變字體顏色 */
 }
+
 
 /**項目內容文字設定*/
 .food-subtitle {
