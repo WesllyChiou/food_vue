@@ -104,14 +104,13 @@
 
      <!-- 分享到 Thread -->
      <a
-      :href="`https://www.thread.com/share?url=${encodeURIComponent(shareUrl)}`"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="social-link"
-    >
-      分享到Thread
-    </a>
-    
+        href="#"
+        @click.prevent="copyToClipboard"
+        class="social-link"
+      >
+        分享到Thread
+      </a>
+
     <a
         href="#"
         @click.prevent="copyToClipboard"
@@ -574,7 +573,7 @@ p {
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 20px; /* 連結之間的間距 */
+  gap: 10px; /* 連結之間的間距 */
 }
 
 .social-link {
