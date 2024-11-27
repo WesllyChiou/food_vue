@@ -209,7 +209,8 @@ export default {
           const response = await axios.get("https://food-server-ycm2.onrender.com/api/search", {
             params: { query: this.searchQuery },
           });
-          this.foods = response.data;
+          this.foods = response.data;// 資料加載後賦值
+          this.updateSchemaData(); // 資料加載後更新 JSON-LD
         } catch (error) {
           console.error("搜尋錯誤:", error);
         } finally {
@@ -217,6 +218,36 @@ export default {
         }
       }
     },
+
+    updateSchemaData() {
+    if (this.foods && this.foods.length > 0) {
+      const food = this.foods[0];  // 假設你顯示的是第一個搜尋結果，根據需求調整
+
+      // 構建符合 JSON-LD 格式的結構化數據
+      const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "Food",
+        "name": food.樣品名稱,
+        "alternateName": food.俗名,
+        "calories": food['熱量(kcal)'],
+        "nutrition": {
+          "@type": "NutritionInformation",
+          "calories": food['熱量(kcal)'],
+          "modifiedCalories": food['修正熱量(kcal)'],
+          "proteinContent": food['粗蛋白(g)'],
+          "fatContent": food['粗脂肪(g)'],
+          "carbohydrateContent": food['總碳水化合物(g)']
+        },
+        "source": food['資料來源']
+      };
+
+      // 創建 <script> 標籤並插入到 <head> 中
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.innerHTML = JSON.stringify(schemaData);
+      document.head.appendChild(script);
+    }
+  },
 
     openExerciseModal(food) {
       this.selectedFood = food;
