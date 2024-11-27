@@ -3,3 +3,12 @@ git remote
 git remote add origin https://github.com/WesllyChiou/food_vue.git
 
 
+分享給大家一個實用的查詢工具，可以輸入你所想要查詢的食物按搜尋就能列出食物熱量(資料來源來自食品藥物管理署、國民健康署及網路上多位營養師所整理的食物熱量資訊)
+
+點進去後可以計算基礎代謝率BMR ，每日總熱量消耗TDEE，以及各種不同種類的運動要運動多久才可以消耗掉熱量，有興趣跟有需要的人可以玩玩看喔
+https://food-vue.onrender.com
+
+
+https://ibb.co/4MGR9z4
+https://ibb.co/YL94fSK
+https://ibb.co/f13L5YB

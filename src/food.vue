@@ -25,7 +25,7 @@
       >
         <h3>{{ food.樣品名稱 }}</h3>
         <p>俗名: {{ food.俗名 }}</p>
-        <p>熱量: {{ food['熱量(kcal)'] }}，修正熱量: {{ food['修正熱量(kcal)'] }}，蛋白: {{ food['粗蛋白(g)'] }}，脂肪: {{ food['粗脂肪(g)'] }}，碳水化合物: {{ food['總碳水化合物(g)'] }}</p>
+        <p>熱量: {{ food['熱量(kcal)'] }}，修正熱量: {{ food['修正熱量(kcal)'] }}，蛋白: {{ food['蛋白(g)'] }}，脂肪: {{ food['脂肪(g)'] }}，碳水化合物: {{ food['碳水化合物(g)'] }}，糖: {{ food['糖(g)'] }}鈉: {{ food['鈉(mg)'] }}</p>
         <h4>資料來源:{{ food['資料來源'] }}</h4>
       </div>
     </div>
@@ -210,7 +210,7 @@ export default {
             params: { query: this.searchQuery },
           });
           this.foods = response.data;// 資料加載後賦值
-          this.updateSchemaData(); // 資料加載後更新 JSON-LD
+          this.updateSchemaData(); // 資料加載後更新 JSON-LD //for SEO
         } catch (error) {
           console.error("搜尋錯誤:", error);
         } finally {
@@ -219,6 +219,7 @@ export default {
       }
     },
 
+    //for SEO
     updateSchemaData() {
     // 確保有搜尋結果
     if (this.foods && this.foods.length > 0) {
