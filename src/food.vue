@@ -502,17 +502,20 @@ p {
     background-color: #f1f1f1;
     text-align: center;
     font-size: 16px;
-    white-space: nowrap; /* 禁止換行 */
-    overflow: hidden;    /* 隱藏超出範圍的部分 */
-    text-overflow: ellipsis; /* 用省略號表示被隱藏的部分 */
+    white-space: normal; /* 允許換行，避免文字被截斷 */
+    overflow: visible;    /* 讓超出的內容可見 */
+    text-overflow: clip; /* 取消省略號 */
+    min-width: 140px; /* 設定最小寬度，確保框框夠寬 */
   }
 }
 
 @media (max-width: 480px) {
   .exercise-item {
-    flex: 0 0 calc(100% - 10px); /* 在手機上每行顯示一個項目，且增加寬度 */
+    flex: 0 0 calc(100% - 10px); /* 在手機上每行顯示一個項目，並增加寬度 */
+    min-width: 200px; /* 保證手機設備上框框足夠寬 */
   }
 }
+
 
 
 /* 頁腳資訊區的樣式 */
