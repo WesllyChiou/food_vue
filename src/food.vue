@@ -2,14 +2,17 @@
   <div class="app-container">
     <h1>食物熱量及熱量在不同運動下的消耗時間查詢</h1>
        <div class="search-container">
-      
+        <div class="search-bar">
         <!-- 在此處加入 @keydown.enter -->
         <input
         v-model="searchQuery"
         placeholder="輸入食物名稱"
         @keyup.enter="searchFood"
       />
-      <button @click="searchFood">搜尋</button>
+      <button class="search-button" @click="searchFood">
+          <i class="icon">🔍</i> 搜尋
+        </button>
+      </div>
     </div>
 
     <div v-if="isLoading" class="progress-bar">
@@ -367,7 +370,64 @@ h1 {
 }
 
 .search-container {
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+/* 搜尋欄 */
+.search-bar {
+  display: flex;
+  align-items: center;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  padding: 5px 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* 搜尋欄 hover 效果 */
+.search-bar:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+/* 輸入框 */
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  background: transparent;
+  padding: 5px;
+  color: #333;
+}
+
+/* 搜尋按鈕 */
+.search-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+/* 按鈕 hover 效果 */
+.search-button:hover {
+  background: #0056b3;
+}
+
+/* 圖標 */
+.icon {
+  margin-right: 5px;
+  font-size: 18px;
 }
 
 input {
