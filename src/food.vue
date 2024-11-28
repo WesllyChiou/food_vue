@@ -122,7 +122,7 @@
       </a>
   
 </p>
-      <p>&copy; 2024 FOODHOW</p>
+      <p>&copy; 2024 HOWHOWFOOD</p>
     </footer>
   </div>
 </template>
@@ -509,7 +509,7 @@ button {
   width: 100%;
   height: 4px;
   background-color: #f0f0f0;
-  margin-top: -100px;
+  margin-top: -40px;
 }
 
 .progress-bar-inner {

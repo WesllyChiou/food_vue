@@ -1,6 +1,6 @@
 {
-  "name": "Food calorie search",
-  "short_name": "FoodHow",
+  "name": "MyWebSite",
+  "short_name": "MySite",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
