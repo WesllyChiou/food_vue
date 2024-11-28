@@ -7,7 +7,7 @@
         <input
         v-model="searchQuery"
         placeholder="輸入食物名稱"
-        @keydown.enter="searchFood"
+        @keyup.enter="searchFood"
       />
       <button @click="searchFood">搜尋</button>
     </div>
