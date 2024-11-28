@@ -509,7 +509,7 @@ button {
   width: 100%;
   height: 4px;
   background-color: #f0f0f0;
-  margin-top: -40px;
+  margin-top: -10px;
 }
 
 .progress-bar-inner {
