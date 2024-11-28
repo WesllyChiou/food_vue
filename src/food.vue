@@ -2,21 +2,20 @@
   <div class="app-container">
     <h1>食物熱量及熱量在不同運動下的消耗時間查詢</h1>
        <div class="search-container">
-        <div class="search-bar">
+      
         <!-- 在此處加入 @keydown.enter -->
         <input
         v-model="searchQuery"
         placeholder="輸入食物名稱"
         @keyup.enter="searchFood"
       />
-      <button class="search-button" @click="searchFood">
-          <i class="icon">🔍</i> 搜尋
-        </button>
-      </div>
+      <button @click="searchFood">搜尋</button>
     </div>
 
-    <div v-if="isLoading" class="progress-bar">
+       <!-- 顯示進度條 -->
+       <div v-if="isLoading" class="progress-bar">
       <p>搜尋中...</p>
+      <div class="progress-bar-inner"></div> <!-- 進度條本體 -->
     </div>
 
     <div v-if="foods.length > 0" class="food-list">
@@ -370,64 +369,7 @@ h1 {
 }
 
 .search-container {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-/* 搜尋欄 */
-.search-bar {
-  display: flex;
-  align-items: center;
-  border: 2px solid #ccc;
-  border-radius: 25px;
-  padding: 5px 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(to right, #f8f9fa, #e9ecef);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-/* 搜尋欄 hover 效果 */
-.search-bar:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px);
-}
-
-/* 輸入框 */
-.search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  background: transparent;
-  padding: 5px;
-  color: #333;
-}
-
-/* 搜尋按鈕 */
-.search-button {
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  padding: 5px 15px;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease;
-}
-
-/* 按鈕 hover 效果 */
-.search-button:hover {
-  background: #0056b3;
-}
-
-/* 圖標 */
-.icon {
-  margin-right: 5px;
-  font-size: 18px;
+  margin-bottom: 20px;
 }
 
 input {
@@ -563,9 +505,24 @@ button {
 }
 
 .progress-bar {
-  text-align: center;
-  font-size: 16px;
-  color: #666;
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background-color: #f0f0f0;
+  margin-top: 10px;
+}
+
+.progress-bar-inner {
+  position: absolute;
+  width: 50%; /* 動態更新進度 */
+  height: 100%;
+  background-color: #4caf50;
+  animation: progress 2s infinite;
+}
+
+@keyframes progress {
+  0% { width: 0%; }
+  100% { width: 100%; }
 }
 
 .progress-bar p {
