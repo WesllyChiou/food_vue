@@ -10,13 +10,13 @@
         @keyup.enter="searchFood"
       />
       <button @click="searchFood">搜尋</button>
+         <!-- 顯示進度條 -->
+    <div v-if="isLoading" class="progress-bar">
+    <div class="progress-bar-inner"></div> <!-- 進度條本體 -->
+   </div>
     </div>
 
-       <!-- 顯示進度條 -->
-       <div v-if="isLoading" class="progress-bar">
-      <p>搜尋中...</p>
-      <div class="progress-bar-inner"></div> <!-- 進度條本體 -->
-    </div>
+    
 
     <div v-if="foods.length > 0" class="food-list">
       <div
