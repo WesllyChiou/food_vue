@@ -9,7 +9,7 @@
         placeholder="輸入食物名稱"
         @keyup.enter="searchFood"
       />
-      <button @click="searchFood" class="bg-gray-200 min-h-screen">搜尋</button>
+      <button @click="searchFood" type="primary">搜尋</button>
          <!-- 顯示進度條 -->
     <div v-if="isLoading" class="progress-bar">
     <div class="progress-bar-inner"></div> <!-- 進度條本體 -->
