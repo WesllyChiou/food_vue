@@ -392,7 +392,7 @@ input {
 
 button {
   padding: 10px 20px;
-  background-color: #ccc;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
@@ -401,7 +401,7 @@ button {
 }
 
 button:hover {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: #45a049;
 }
 
 .food-list {
