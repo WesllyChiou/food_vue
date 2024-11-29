@@ -9,7 +9,7 @@
         placeholder="輸入食物名稱"
         @keyup.enter="searchFood"
       />
-      <button @click="searchFood" type="primary">搜尋</button>
+      <button @click="searchFood">搜尋</button>
          <!-- 顯示進度條 -->
     <div v-if="isLoading" class="progress-bar">
     <div class="progress-bar-inner"></div> <!-- 進度條本體 -->
@@ -392,16 +392,16 @@ input {
 
 button {
   padding: 10px 20px;
-  background-color: #4caf50;
+  background-color: #f9f9f9;
   color: white;
   border: none;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #faf3f3;
 }
 
 .food-list {
