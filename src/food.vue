@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <h1>食物熱量及熱量在不同運動下的消耗時間查詢</h1>
+    <h1>食物熱量及運動消耗時間查詢</h1>
        <div class="search-container">
       
         <!-- 在此處加入 @keydown.enter -->
@@ -27,7 +27,7 @@
       >
         <h3>{{ food.樣品名稱 }}</h3>
         <p>俗名: {{ food.俗名 }}</p>
-        <p>熱量: {{ food['熱量(kcal)'] }}kcal 修正熱量: {{ food['修正熱量(kcal)'] }}kcal 蛋白: {{ food['蛋白(g)'] }}g 脂肪: {{ food['脂肪(g)'] }}g 碳水化合物: {{ food['碳水化合物(g)'] }}g 糖: {{ food['糖(g)'] }}g 鈉: {{ food['鈉(mg)'] }}mg</p>
+        <p>熱量: {{ food['熱量(kcal)'] }}kcal  修正熱量: {{ food['修正熱量(kcal)'] }}kcal  蛋白: {{ food['蛋白(g)'] }}g  脂肪: {{ food['脂肪(g)'] }}g  碳水化合物: {{ food['碳水化合物(g)'] }}g  糖: {{ food['糖(g)'] }}g  鈉: {{ food['鈉(mg)'] }}mg</p>
         <h4>資料來源:{{ food['資料來源'] }}</h4>
       </div>
     </div>
@@ -364,7 +364,7 @@ export default {
 }
 
 h1 {
-  font-size: 32px;
+  font-size: 40px;
   margin-bottom: 20px;
 }
 
