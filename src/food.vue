@@ -27,7 +27,7 @@
       >
         <h3>{{ food.樣品名稱 }}</h3>
         <p>俗名: {{ food.俗名 }}</p>
-        <p>熱量: {{ food['熱量(kcal)'] }}，修正熱量: {{ food['修正熱量(kcal)'] }}，蛋白: {{ food['蛋白(g)'] }}，脂肪: {{ food['脂肪(g)'] }}，碳水化合物: {{ food['碳水化合物(g)'] }}，糖: {{ food['糖(g)'] }}鈉: {{ food['鈉(mg)'] }}</p>
+        <p>熱量: {{ food['熱量(kcal)'] }} 修正熱量: {{ food['修正熱量(kcal)'] }} 蛋白: {{ food['蛋白(g)'] }} 脂肪: {{ food['脂肪(g)'] }} 碳水化合物: {{ food['碳水化合物(g)'] }} 糖: {{ food['糖(g)'] }} 鈉: {{ food['鈉(mg)'] }}</p>
         <h4>資料來源:{{ food['資料來源'] }}</h4>
       </div>
     </div>
@@ -369,7 +369,15 @@ h1 {
 }
 
 .search-container {
-  margin-bottom: 20px;
+  position: relative;
+  width: 100%; /* 確保佔滿可用區域 */
+  padding: 10px;
+}
+#search-field {
+  width: 100%; /* 搜尋欄寬度 */
+  padding: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
 input {
@@ -507,9 +515,18 @@ button {
 .progress-bar {
   position: relative;
   width: 100%;
-  height: 4px;
-  background-color: #f0f0f0;
-  margin-top: -10px;
+  height: 5px;
+  background-color: #ccc;
+  margin-top: 5px;
+}
+
+#progress-bar::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 50%; /* 假設進度為50% */
+  background-color: #0f0; /* 綠色進度條 */
+  transition: width 0.5s ease; /* 平滑動畫 */
 }
 
 .progress-bar-inner {
