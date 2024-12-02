@@ -37,7 +37,6 @@
 
     <!-- 顯示錯誤訊息 -->
     <div v-else-if="error">{{ error }}</div>
-
    <!-- 查無資料提示 -->
    <div v-if="!isLoading && foods.length === 0 && searchQuery.trim()">
       <p>查無資料</p>
@@ -396,15 +395,24 @@ input {
   box-sizing: border-box;
 }
 
+
+/* 基本按鈕樣式 */
 button {
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 18px;
-  cursor: pointer;
+  background: linear-gradient(45deg, #ff7e5f, #feb47b);  /* 設置漸變背景 */
+  color: white;  /* 文字顏色 */
+  border: none;  /* 移除邊框 */
+  padding: 10px 20px;  /* 調整內邊距 */
+  font-size: 16px;  /* 字體大小 */
+  cursor: pointer;  /* 鼠標懸停時顯示指針 */
+  transition: background 0.3s ease;  /* 設置漸變動畫 */
+  border-radius: 5px;  /* 設置圓角 */
 }
+
+/* 鼠標懸停時的效果 */
+button:hover {
+  background: linear-gradient(45deg, #feb47b, #ff7e5f);  /* 反向漸變效果 */
+}
+
 
 button:hover {
   background-color: #45a049;
@@ -423,9 +431,6 @@ button:hover {
   background-color: #f9f9f9;
   text-align: left;
   transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;
-  justify-content: space-between;  /* 使食物項目兩邊對齊 */
-  margin-bottom: 10px;
 }
 
 .food-item:hover {
@@ -690,19 +695,4 @@ p {
   }
 }
 
-/* 調整小螢幕下的佈局 */
-@media screen and (max-width: 768px) {
-  .form-container {
-    gap: 10px;  /* 在小螢幕上減少間距 */
-  }
-
-  .food-item {
-    font-size: 14px;  /* 減小字體大小，讓項目更緊湊 */
-    flex-wrap: wrap;   /* 讓食物項目在小螢幕上能換行 */
-  }
-
-  .food-subtitle input {
-    width: 100%;  /* 在小螢幕上讓輸入框佔滿寬度 */
-  }
-}
 </style>
