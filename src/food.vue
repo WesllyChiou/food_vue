@@ -37,7 +37,7 @@
 
     <!-- 顯示錯誤訊息 -->
     <div v-else-if="error">{{ error }}</div>
-    
+
    <!-- 查無資料提示 -->
    <div v-if="!isLoading && foods.length === 0 && searchQuery.trim()">
       <p>查無資料</p>
@@ -423,6 +423,9 @@ button:hover {
   background-color: #f9f9f9;
   text-align: left;
   transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  justify-content: space-between;  /* 使食物項目兩邊對齊 */
+  margin-bottom: 10px;
 }
 
 .food-item:hover {
@@ -687,4 +690,19 @@ p {
   }
 }
 
+/* 調整小螢幕下的佈局 */
+@media screen and (max-width: 768px) {
+  .form-container {
+    gap: 10px;  /* 在小螢幕上減少間距 */
+  }
+
+  .food-item {
+    font-size: 14px;  /* 減小字體大小，讓項目更緊湊 */
+    flex-wrap: wrap;   /* 讓食物項目在小螢幕上能換行 */
+  }
+
+  .food-subtitle input {
+    width: 100%;  /* 在小螢幕上讓輸入框佔滿寬度 */
+  }
+}
 </style>
