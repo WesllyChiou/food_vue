@@ -398,7 +398,7 @@ input {
 
 /* 基本按鈕樣式 */
 button {
-  background: linear-gradient(45deg, #FFB74D, #FF7043); /* 橙色與暖紅色漸變背景 */
+  background: linear-gradient(45deg, #757575, #212121); /* 橙色與暖紅色漸變背景 */
   color: white;
   border: none;
   padding: 10px 20px;
@@ -406,11 +406,12 @@ button {
   cursor: pointer;
   transition: background 0.3s ease;
   border-radius: 5px;
+  width: auto; /* 使按鈕寬度適應內容 */
 }
 
 /* 鼠標懸停時的效果 */
 button:hover {
-  background: linear-gradient(45deg, #FF7043, #FFB74D); /* 反向漸變效果 */
+  background: linear-gradient(45deg, #616161, #424242); /* 反向漸變效果 */
 }
 
 .food-list {
@@ -620,10 +621,10 @@ p {
 .app-footer {
   background-color: #000;
   color: #fff;
-  padding: 10px 20px;
+  padding: 10px 0px;
   display: flex;
-  /*justify-content: center;
- align-items: center;*/
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   width: 100%;
   box-sizing: border-box;
