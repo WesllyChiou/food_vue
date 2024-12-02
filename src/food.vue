@@ -377,6 +377,8 @@ h1 {
   position: relative;
   width: 100%;
   padding: 10px;
+  align-items: center;
+  display: flex;
 }
 #search-field {
   width: 100%;
@@ -425,8 +427,7 @@ button:hover {
   background-color: #f9f9f9;
   text-align: left;
   transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;
-  align-items: center;
+
 }
 
 .food-item:hover {
