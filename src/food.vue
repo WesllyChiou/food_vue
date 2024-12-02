@@ -425,6 +425,8 @@ button:hover {
   background-color: #f9f9f9;
   text-align: left;
   transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
 }
 
 .food-item:hover {
