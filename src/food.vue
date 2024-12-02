@@ -622,9 +622,9 @@ p {
   color: #fff;
   padding: 10px 20px;
   display: flex;
-  justify-content: center;
- /*align-items: center;*/
-  flex-wrap: wrap;
+  /*justify-content: center;
+ align-items: center;
+  flex-wrap: wrap;*/
   width: 100%;
   box-sizing: border-box;
 }
