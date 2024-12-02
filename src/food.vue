@@ -417,7 +417,8 @@ button:hover {
 .food-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: flex-start; /* 左對齊 */
+  width: 100%;
 }
 
 .food-item {
