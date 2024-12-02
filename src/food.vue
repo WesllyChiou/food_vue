@@ -32,6 +32,12 @@
       </div>
     </div>
 
+    <!-- 顯示加載中的訊息 -->
+    <div v-if="isLoading">Loading...</div>
+
+    <!-- 顯示錯誤訊息 -->
+    <div v-else-if="error">{{ error }}</div>
+    
    <!-- 查無資料提示 -->
    <div v-if="!isLoading && foods.length === 0 && searchQuery.trim()">
       <p>查無資料</p>
