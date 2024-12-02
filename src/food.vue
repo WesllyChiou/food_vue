@@ -375,11 +375,11 @@ h1 {
 
 .search-container {
   position: relative;
-  width: 100%; /* 確保佔滿可用區域 */
+  width: 100%;
   padding: 10px;
 }
 #search-field {
-  width: 100%; /* 搜尋欄寬度 */
+  width: 100%;
   padding: 8px;
   font-size: 16px;
   box-sizing: border-box;
@@ -395,33 +395,27 @@ input {
   box-sizing: border-box;
 }
 
-
 /* 基本按鈕樣式 */
 button {
-  background: linear-gradient(45deg, #ff7e5f, #feb47b);  /* 設置漸變背景 */
-  color: white;  /* 文字顏色 */
-  border: none;  /* 移除邊框 */
-  padding: 10px 20px;  /* 調整內邊距 */
-  font-size: 16px;  /* 字體大小 */
-  cursor: pointer;  /* 鼠標懸停時顯示指針 */
-  transition: background 0.3s ease;  /* 設置漸變動畫 */
-  border-radius: 5px;  /* 設置圓角 */
+  background: linear-gradient(45deg, #FFB74D, #FF7043); /* 橙色與暖紅色漸變背景 */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  border-radius: 5px;
 }
 
 /* 鼠標懸停時的效果 */
 button:hover {
-  background: linear-gradient(45deg, #feb47b, #ff7e5f);  /* 反向漸變效果 */
-}
-
-
-button:hover {
-  background-color: #45a049;
+  background: linear-gradient(45deg, #FF7043, #FFB74D); /* 反向漸變效果 */
 }
 
 .food-list {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* 調整項目間距 */
+  gap: 10px;
 }
 
 .food-item {
@@ -470,8 +464,8 @@ button:hover {
   width: 100%;
   text-align: left;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  max-height: 80vh;  /* 限制模態框的最大高度 */
-  overflow-y: auto;  /* 允許垂直滾動 */
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .close-btn {
@@ -485,27 +479,24 @@ button:hover {
 
 .exercise-container {
   display: flex;
-  flex-wrap: wrap; /* 啟用自動換行 */
-  justify-content: center; /* 水平居中 */
-  gap: 10px; /* 每個運動項目的間距 */
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
   margin-top: 20px;
 }
 
 .exercise-item {
-  flex: 0 0 calc(33.33% - 10px); /* 每個項目占容器寬度的20%，考慮間距 */
+  flex: 0 0 calc(33.33% - 10px);
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #f1f1f1;
   text-align: center;
   font-size: 16px;
-
-  white-space: nowrap; /* 禁止換行 */
-  overflow: hidden;    /* 隱藏超出範圍的部分 */
-  text-overflow: ellipsis; /* 用省略號表示被隱藏的部分 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-
 
 input[type="number"],
 .styled-select {
@@ -538,14 +529,14 @@ button {
   content: "";
   display: block;
   height: 100%;
-  width: 50%; /* 假設進度為50% */
-  background-color: #0f0; /* 綠色進度條 */
-  transition: width 0.5s ease; /* 平滑動畫 */
+  width: 50%;
+  background-color: #0f0;
+  transition: width 0.5s ease;
 }
 
 .progress-bar-inner {
   position: absolute;
-  width: 50%; /* 動態更新進度 */
+  width: 50%;
   height: 100%;
   background-color: #4caf50;
   animation: progress 2s infinite;
@@ -579,40 +570,36 @@ p {
     width: 95%;
   }
 
-  /* 運動項目的響應式調整 */
   .exercise-container {
     display: flex;
-    flex-wrap: wrap; /* 啟用自動換行 */
-    justify-content: center; /* 水平居中 */
-    gap: 10px; /* 每個運動項目的間距 */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
     margin-top: 20px;
   }
 
   .exercise-item {
-    flex: 0 0 calc(50% - 10px); /* 在中等螢幕上每行顯示兩個項目 */
+    flex: 0 0 calc(50% - 10px);
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #f1f1f1;
     text-align: center;
     font-size: 16px;
-    white-space: normal; /* 允許換行，避免文字被截斷 */
-    overflow: visible;    /* 讓超出的內容可見 */
-    text-overflow: clip; /* 取消省略號 */
-    min-width: 140px; /* 設定最小寬度，確保框框夠寬 */
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    min-width: 140px;
   }
 }
 
 @media (max-width: 480px) {
   .exercise-item {
-    flex: 0 0 calc(100% - 10px); /* 在手機上每行顯示一個項目，並增加寬度 */
-    min-width: 200px; /* 保證手機設備上框框足夠寬 */
+    flex: 0 0 calc(100% - 10px);
+    min-width: 200px;
   }
 }
 
-
-
-/* 頁腳資訊區的樣式 */
 .footer-info {
   display: flex;
   justify-content: space-between;
@@ -628,71 +615,66 @@ p {
   margin-right: 10px;
 }
 
-/* 設定頁腳容器 */
 .app-footer {
-  background-color: #000; /* 黑色背景 */
-  color: #fff; /* 白色字體 */
-  padding: 10px 20px; /* 增加內邊距，讓內容不緊貼邊緣 */
-  display: flex; /* 使用 flexbox */
-  justify-content: center; /* 讓內容居中對齊 */
-  align-items: center; /* 垂直居中 */
-  flex-wrap: wrap; /* 容許內容換行 */
-  width: 100%; /* 確保背景寬度覆蓋整個頁面 */
-  box-sizing: border-box; /* 包含內邊距計算寬度 */
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* 子項目通用樣式 */
 .app-footer p,
 .app-footer a {
-  margin: 5px 10px; /* 為每個元素增加間距 */
-  text-align: center; /* 文字居中 */
-  text-decoration: none; /* 移除連結的下劃線 */
-  color: #fff; /* 白色字體 */
+  margin: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
 }
 
 .app-footer a:hover {
-  color: #00bcd4; /* 鼠標懸停時改變字體顏色 */
+  color: #00bcd4;
 }
 
-/* 社交連結統一樣式 */
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 10px; /* 連結之間的間距 */
+  gap: 10px;
 }
 
 .social-link {
-  color: #fff; /* 白色文字 */
-  text-decoration: none; /* 移除底線 */
-  font-size: 14px; /* 字體大小 */
-  padding: 5px 10px; /* 內邊距讓點擊區域更大 */
-  border-radius: 4px; /* 圓角 */
-  transition: background-color 0.3s ease; /* 滑鼠懸停效果 */
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
 .social-link:hover {
-  background-color: #444; /* 滑鼠懸停背景色 */
+  background-color: #444;
 }
 
-
-/**項目內容文字設定*/
 .food-subtitle {
-  font-size: 18px; /* 字體大小 */
-  color: #333;    /* 顏色 (可選) */
+  font-size: 18px;
+  color: #333;
 }
 
-/* 手機或小螢幕設備：每列顯示兩個項目 */
 @media (max-width: 768px) {
   .exercise-item {
-    flex: 0 0 calc(50% - 10px); /* 每個項目占容器寬度的 50%，這樣每列顯示 2 個項目 */
+    flex: 0 0 calc(50% - 10px);
   }
 }
 
-/* 頁面寬度大於768px，顯示每列 3 個項目 */
 @media (min-width: 769px) {
   .exercise-item {
-    flex: 0 0 calc(33.33% - 10px); /* 每個項目占容器寬度的 33.33%，這樣每列顯示 3 個項目 */
+    flex: 0 0 calc(33.33% - 10px);
   }
 }
+
+
 
 </style>
