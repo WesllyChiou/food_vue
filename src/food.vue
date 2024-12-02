@@ -377,8 +377,7 @@ h1 {
   position: relative;
   width: 100%;
   padding: 10px;
-  align-items: center;
- 
+  
 }
 #search-field {
   width: 100%;
