@@ -417,8 +417,7 @@ button:hover {
 .food-list {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 左對齊 */
-  width: 100%;
+  gap: 10px;
 }
 
 .food-item {
@@ -629,6 +628,8 @@ p {
   flex-wrap: wrap;
   width: 100%;
   box-sizing: border-box;
+  padding-left: 20px;  /* 確保頁腳與上方元素左邊對齊 */
+  padding-right: 20px; /* 確保頁腳與上方元素右邊對齊 */
 }
 
 .app-footer p,
@@ -679,6 +680,17 @@ p {
   }
 }
 
+/* 修改其他手機板的樣式，確保輸入框和按鈕不影響頁腳 */
+@media (max-width: 768px) {
+  input,
+  button {
+    width: 100%;
+  }
 
+  .app-footer {
+    padding-left: 20px;  /* 與 input 和 button 左邊對齊 */
+    padding-right: 20px; /* 與 input 和 button 右邊對齊 */
+  }
+}
 
 </style>
