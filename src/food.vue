@@ -411,7 +411,7 @@ button {
 
 /* 鼠標懸停時的效果 */
 button:hover {
-  background: linear-gradient(45deg, #616161, #424242); /* 反向漸變效果 */
+  background: linear-gradient(45deg,#9e9e9e, #757575); /* 反向漸變效果 */
 }
 
 .food-list {
@@ -621,15 +621,13 @@ p {
 .app-footer {
   background-color: #000;
   color: #fff;
-  padding: 10px 0px;
+  padding: 10px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
   box-sizing: border-box;
-  padding-left: 20px;  /* 確保頁腳與上方元素左邊對齊 */
-  padding-right: 20px; /* 確保頁腳與上方元素右邊對齊 */
 }
 
 .app-footer p,
@@ -680,17 +678,6 @@ p {
   }
 }
 
-/* 修改其他手機板的樣式，確保輸入框和按鈕不影響頁腳 */
-@media (max-width: 768px) {
-  input,
-  button {
-    width: 100%;
-  }
 
-  .app-footer {
-    padding-left: 20px;  /* 與 input 和 button 左邊對齊 */
-    padding-right: 20px; /* 與 input 和 button 右邊對齊 */
-  }
-}
 
 </style>
