@@ -427,7 +427,7 @@ button:hover {
   background-color: #f9f9f9;
   text-align: left;
   transition: transform 0.2s, box-shadow 0.2s;
-  margin-left: 10px; /* 調整這裡的數值即可 */
+  margin-left: 25px; 
 }
 
 .food-item:hover {
@@ -628,6 +628,7 @@ p {
   flex-wrap: wrap;
   width: 100%;
   box-sizing: border-box;
+  margin-left: 15px; 
 }
 
 .app-footer p,
